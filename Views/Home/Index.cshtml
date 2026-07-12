@@ -1,0 +1,89 @@
+@model IEnumerable<Listing>
+    @{ ViewData["Title"] = "Tìm phòng trọ thông minh"; }
+
+    <section class="hero-home">
+        <div class="hero-copy">
+            <span class="eyebrow">TÌM PHÒNG THÔNG MINH TẠI HÀ NỘI</span>
+            <h1>Chạm đúng nơi ở<br />hợp với bạn.</h1>
+            <p>Hàng nghìn phòng trọ đã kiểm duyệt, chủ trọ xác thực và tìm kiếm trực quan theo vị trí.</p>
+            <form method="get" asp-controller="Home" asp-action="Search" class="hero-search">
+                <input name="Keyword" placeholder="Tên đường, trường học, từ khóa..." />
+                <button>Tìm phòng <span>→</span></button>
+            </form>
+        </div>
+        <div class="hero-photo-wrap"><img
+                src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1400&q=85"
+                alt="Không gian phòng trọ hiện đại, sáng và gọn gàng" /></div>
+    </section>
+
+    <section class="listing-section">
+        <div class="section-heading">
+            <div><span class="eyebrow">KHÁM PHÁ</span>
+                <h2>Phòng trọ mới nhất</h2>
+            </div><a asp-action="Search">Xem trên bản đồ →</a>
+        </div>
+        <div class="row g-4">
+            @foreach (var room in Model) {
+            <div class="col-12 col-sm-6 col-lg-3">
+                <article class="room-card h-100">
+                    <div class="room-image"><img src="@room.CoverImageUrl" alt="@room.Title" /><span>Đã xác thực</span>
+                    </div>
+                    <div class="room-content">
+                        <p class="room-location">@room.District</p>
+                        <h3>@room.Title</h3>
+                        <p class="room-address">@room.Address</p>
+                        <div class="room-meta"><strong>@room.Price.ToString("N0") đ</strong><small>@room.Area m²</small>
+                        </div>
+                    </div>
+                    <a class="stretched-link" asp-action="Detail" asp-route-id="@room.Id"
+                        aria-label="Xem @room.Title"></a>
+                </article>
+            </div>
+            }
+        </div>
+        <div class="text-center mt-5"><a asp-action="Search" class="view-all">Xem tất cả phòng <span>→</span></a></div>
+    </section>
+
+    <section class="features-section">
+        <div class="text-center"><span class="eyebrow">TÍNH NĂNG</span>
+            <h2>Tại sao chọn RoomGo?</h2>
+        </div>
+        <div class="row g-3 mt-3">
+            <div class="col-md-4">
+                <article class="feature-card"><i>⌖</i>
+                    <h3>Tìm kiếm địa lý</h3>
+                    <p>Geospatial Search hiển thị phòng theo bán kính từ vị trí của bạn trên bản đồ Hà Nội.</p>
+                </article>
+            </div>
+            <div class="col-md-4">
+                <article class="feature-card"><i>♢</i>
+                    <h3>Chủ trọ xác thực</h3>
+                    <p>Chủ trọ xác thực qua OTP điện thoại, tăng độ tin cậy cho từng tin đăng.</p>
+                </article>
+            </div>
+            <div class="col-md-4">
+                <article class="feature-card"><i>◌</i>
+                    <h3>Nhắn tin nội bộ</h3>
+                    <p>Trao đổi trực tiếp với chủ trọ ngay trên RoomGo, không cần chia sẻ số cá nhân.</p>
+                </article>
+            </div>
+            <div class="col-md-4">
+                <article class="feature-card"><i>♧</i>
+                    <h3>Thông báo real-time</h3>
+                    <p>Nhận ngay thông báo khi có phòng mới đúng tiêu chí hoặc có tin nhắn mới.</p>
+                </article>
+            </div>
+            <div class="col-md-4">
+                <article class="feature-card"><i>♙</i>
+                    <h3>Đánh giá & xếp hạng</h3>
+                    <p>Hệ thống đánh giá hai chiều giúp xây dựng cộng đồng thuê trọ minh bạch.</p>
+                </article>
+            </div>
+            <div class="col-md-4">
+                <article class="feature-card"><i>↗</i>
+                    <h3>Quản lý thống kê</h3>
+                    <p>Dashboard trực quan giúp quản trị viên theo dõi hoạt động hệ thống.</p>
+                </article>
+            </div>
+        </div>
+    </section>

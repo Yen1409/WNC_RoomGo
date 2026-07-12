@@ -1,0 +1,37 @@
+@model RegisterVm
+<div class="auth-card">
+    <h1 class="h3">Tạo tài khoản người thuê</h1>
+    <p class="text-muted">Điền đầy đủ thông tin để tạo tài khoản.</p>
+
+    <form method="post">
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+        <div class="mb-3">
+            <label asp-for="FullName" class="form-label"></label>
+            <input asp-for="FullName" class="form-control" placeholder="Nguyễn Văn An" autocomplete="name" />
+            <span asp-validation-for="FullName" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label"></label>
+            <input asp-for="Email" class="form-control" placeholder="ten@example.com" autocomplete="email" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Password" class="form-label"></label>
+            <input asp-for="Password" class="form-control" placeholder="Từ 8 đến 100 ký tự" autocomplete="new-password" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ConfirmPassword" class="form-label"></label>
+            <input asp-for="ConfirmPassword" class="form-control" placeholder="Nhập lại mật khẩu" autocomplete="new-password" />
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Đăng ký</button>
+    </form>
+</div>
+
+<partial name="_AccountValidationScripts" />

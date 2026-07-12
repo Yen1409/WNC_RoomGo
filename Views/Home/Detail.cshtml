@@ -1,0 +1,63 @@
+@model Listing
+@{
+    ViewData["Title"] = Model.Title;
+    var mapQuery = Uri.EscapeDataString($"{Model.Address}, {Model.District}, Hà Nội, Việt Nam");
+    var mapLink = $"https://www.google.com/maps/search/?api=1&query={mapQuery}";
+}
+<div class="container py-5">
+    <div class="row g-4">
+        <div class="col-lg-8"><img class="w-100 rounded-4" style="height:420px;object-fit:cover"
+                src="@Model.CoverImageUrl" alt="@Model.Title" />
+            <h1 class="h2 mt-4">@Model.Title</h1>
+            <p class="text-muted">📍 @Model.Address, @Model.District</p>
+            <div class="display-6 text-primary mb-4">@Model.Price.ToString("N0") đ <small class="fs-6 text-muted">/
+                    tháng • @Model.Area m²</small></div>
+            <h2 class="h5">Mô tả chi tiết</h2>
+            <p style="color:#526176;line-height:1.8;font-size:1.02rem">@Model.Description</p>
+            <p style="color:#526176;line-height:1.8;font-size:1.02rem">Không gian được bố trí cân bằng, thoáng sáng và
+                phù hợp cho sinh viên hoặc người đi làm. Chủ trọ khuyến khích khách đến xem phòng trực tiếp trước khi
+                quyết định; RoomGo không yêu cầu chuyển khoản đặt cọc khi chưa xác minh thông tin.</p>
+            <h2 class="h5 mt-4">Tiện ích</h2>
+            <p>@Model.Amenities</p>
+            <h2 class="h5 mt-4">Vị trí phòng</h2>
+            <div class="map-placeholder"><iframe title="Bản đồ vị trí @Model.Title"
+                    src="https://www.google.com/maps?q=@mapQuery&z=16&output=embed" loading="lazy"></iframe></div><a
+                class="btn btn-outline-primary mt-3" target="_blank" rel="noopener" href="@mapLink">Mở vị trí chính xác
+                trên Google Maps ↗</a>
+        </div>
+        <aside class="col-lg-4">
+            <div class="card card-body shadow-sm sticky-lg-top" style="top:20px">
+                <h2 class="h5">Chủ trọ đã xác thực</h2>
+                <p>@Model.Owner?.FullName</p><button class="btn btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#chat">Nhắn tin ngay</button><button class="btn btn-outline-danger mt-2">Báo cáo
+                    tin</button>
+            </div>
+        </aside>
+    </div>
+</div>
+<div class="modal fade" id="chat" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="h5">Chat về phòng trọ</h2>
+            </div>
+            <div id="messages" class="modal-body chat-box"></div>
+            <div class="modal-footer"><input id="message" class="form-control" placeholder="Nhập tin nhắn..." /><button
+                    id="send" class="btn btn-primary">Gửi</button></div>
+        </div>
+    </div>
+</div>
+@section Scripts { <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.7/signalr.min.js"></script>
+<script>
+    const chat = new signalR.HubConnectionBuilder().withUrl('/chatHub').build();
+    chat.on('Receive', (n, t, time) => document.querySelector('#messages').innerHTML +=
+        `<p><b>${n}</b> ${t} <small>${time}</small></p>`);
+    chat.start().then(() => chat.invoke('JoinRoom', '@Model.Id'));
+    document.querySelector('#send').onclick = () => {
+        const x = document.querySelector('#message');
+        if (!x.value.trim()) return;
+        chat.invoke('Send', '@Model.Id', '@User.Identity?.Name', x.value);
+        x.value = ''
+    };
+
+</script> }

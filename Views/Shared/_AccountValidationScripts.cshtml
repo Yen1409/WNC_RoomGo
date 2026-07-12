@@ -1,0 +1,43 @@
+<script>
+    (() => {
+        const form = document.currentScript.previousElementSibling.querySelector("form");
+        if (!form) return;
+
+        form.addEventListener("submit", () => {
+            form.querySelectorAll("input").forEach(input => input.dispatchEvent(new Event("blur")));
+        });
+
+        form.querySelectorAll("input[data-val='true']").forEach(input => {
+            const message = form.querySelector(`[data-valmsg-for='${input.name}']`);
+            if (!message) return;
+
+            const validate = () => {
+                let error = "";
+                const value = input.value.trim();
+
+                if (input.dataset.valRequired && !value) {
+                    error = input.dataset.valRequired;
+                } else if (input.type === "email" && value && !input.validity.valid) {
+                    error = input.dataset.valEmail;
+                } else if (input.dataset.valLength && !input.validity.valid) {
+                    error = input.dataset.valLength;
+                } else if (input.dataset.valEqualto) {
+                    const otherName = input.dataset.valEqualtoOther.replace("*.", "");
+                    const other = form.elements[otherName];
+                    if (other && input.value !== other.value) error = input.dataset.valEqualto;
+                }
+
+                message.textContent = error;
+                input.classList.toggle("is-invalid", Boolean(error));
+                input.classList.toggle("is-valid", Boolean(value) && !error);
+            };
+
+            input.addEventListener("invalid", event => {
+                event.preventDefault();
+                validate();
+            });
+            input.addEventListener("blur", validate);
+            input.addEventListener("input", validate);
+        });
+    })();
+</script>

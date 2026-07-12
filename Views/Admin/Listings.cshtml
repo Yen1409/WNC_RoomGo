@@ -1,0 +1,22 @@
+@model IEnumerable<Listing>
+    <h1 class="h3">Kiểm duyệt tin đăng</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Tin</th>
+                <th>Chủ trọ</th>
+                <th>Trạng thái</th>
+                <th>Xử lý</th>
+            </tr>
+        </thead>
+        <tbody>@foreach(var x in Model){<tr>
+                <td>@x.Title<br /><small>@x.Address</small></td>
+                <td>@x.Owner?.FullName</td>
+                <td>@x.Status</td>
+                <td>@if(x.Status==ListingStatus.Pending){<form method="post" asp-action="Moderate" class="d-flex gap-1">
+                        <input type="hidden" name="id" value="@x.Id" /><button name="approve" value="true"
+                            class="btn btn-sm btn-success">Duyệt</button><input name="reason"
+                            class="form-control form-control-sm" placeholder="Lý do từ chối" /><button name="approve"
+                            value="false" class="btn btn-sm btn-danger">Từ chối</button></form>}</td>
+            </tr>}</tbody>
+    </table>

@@ -1,0 +1,23 @@
+@model IEnumerable<AppUser>
+    <h1 class="h3">Quản lý tài khoản</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Họ tên</th>
+                <th>Email</th>
+                <th>Vai trò</th>
+                <th>Trạng thái</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>@foreach(var u in Model){<tr>
+                <td>@u.FullName</td>
+                <td>@u.Email</td>
+                <td>@u.Role</td>
+                <td>@(u.IsLocked?"Đã khóa":"Hoạt động")</td>
+                <td>
+                    <form method="post" asp-action="ToggleLock" asp-route-id="@u.Id"><button
+                            class="btn btn-sm btn-outline-danger">@(u.IsLocked?"Mở khóa":"Khóa")</button></form>
+                </td>
+            </tr>}</tbody>
+    </table>

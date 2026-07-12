@@ -1,0 +1,16 @@
+<h1 class="h3">Dashboard quản trị</h1>
+<div class="row g-3">
+    <div class="col-md-3">
+        <div class="stat">@ViewBag.Users<small>Người dùng</small></div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat">@ViewBag.Owners<small>Chủ trọ</small></div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat">@ViewBag.Pending<small>Tin chờ duyệt</small></div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat">@ViewBag.Reports<small>Báo cáo chờ xử lý</small></div>
+    </div>
+</div><a asp-action="Listings" class="btn btn-primary mt-4">Kiểm duyệt tin đăng</a> <a asp-action="Users"
+    class="btn btn-outline-primary mt-4">Quản lý tài khoản</a>

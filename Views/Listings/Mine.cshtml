@@ -1,0 +1,24 @@
+@model IEnumerable<Listing>
+    <div class="d-flex justify-content-between">
+        <h1 class="h3">Tin đăng của tôi</h1><a asp-action="Create" class="btn btn-primary">+ Đăng tin</a>
+    </div>
+    <table class="table mt-3">
+        <thead>
+            <tr>
+                <th>Tiêu đề</th>
+                <th>Giá</th>
+                <th>Trạng thái</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>@foreach(var x in Model){<tr>
+                <td>@x.Title @if(x.Status==ListingStatus.Rejected){<small
+                        class="text-danger">@x.RejectionReason</small>}</td>
+                <td>@x.Price.ToString("N0")</td>
+                <td>@x.Status</td>
+                <td>
+                    <form method="post" asp-action="Hide" asp-route-id="@x.Id"><button
+                            class="btn btn-sm btn-outline-secondary">Ẩn</button></form>
+                </td>
+            </tr>}</tbody>
+    </table>

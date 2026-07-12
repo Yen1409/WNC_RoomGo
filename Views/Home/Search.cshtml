@@ -1,0 +1,61 @@
+@model (SearchVm Query, List<Listing> Rooms)
+    @{
+    ViewData["Title"] = "Tìm kiếm thông minh";
+    var locationQuery = Uri.EscapeDataString($"{Model.Query.Keyword}, Hà Nội, Việt Nam");
+    }
+    <div class="container py-5">
+        <h1 class="h2 mb-3">Tìm kiếm thông minh</h1>
+        <form method="get" asp-controller="Home" asp-action="Search" class="search-panel mb-4">
+            <div class="row g-2">
+                <div class="col-lg-5"><input name="Keyword" value="@Model.Query.Keyword" class="form-control"
+                        placeholder="Số nhà, tên đường, phường, quận..." /></div>
+                <div class="col-lg-2"><input name="District" value="@Model.Query.District" class="form-control"
+                        placeholder="Quận/huyện" /></div>
+                <div class="col-lg-3"><input name="MaxPrice" value="@Model.Query.MaxPrice" class="form-control"
+                        placeholder="Giá tối đa" /></div>
+                <div class="col-lg-2"><button type="submit" class="btn btn-primary w-100">Tìm phòng</button></div>
+            </div>
+            <small>Ví dụ: <b>80 Ngọc Lâm, phường Ngọc Lâm, Long Biên</b>. Hệ thống hiển thị phòng đã được chủ trọ cập
+                nhật gần vị trí đó.</small>
+        </form>
+
+        @if (!string.IsNullOrWhiteSpace(Model.Query.Keyword))
+        {
+        <section class="search-map mb-4">
+            <div><span class="eyebrow">VỊ TRÍ BẠN TÌM</span>
+                <h2 class="h5 mb-0">Bản đồ khu vực “@Model.Query.Keyword”</h2>
+            </div>
+            <iframe title="Bản đồ khu vực tìm kiếm" src="https://www.google.com/maps?q=@locationQuery&z=15&output=embed"
+                loading="lazy"></iframe>
+        </section>
+        }
+        @if (ViewBag.SearchHint is string hint) { <div class="alert alert-info">@hint</div> }
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="h4 mb-0">Phòng trọ phù hợp</h2><span class="text-muted">@Model.Rooms.Count phòng</span>
+        </div>
+        <div class="row g-4">
+            @foreach (var room in Model.Rooms)
+            {
+            var roomMap = Uri.EscapeDataString($"{room.Address}, {room.District}, Hà Nội, Việt Nam");
+            <div class="col-12 col-sm-6 col-lg-3">
+                <article class="room-card search-room-card h-100">
+                    <div class="room-image"><img src="@room.CoverImageUrl" alt="@room.Title" /><span>Đã xác thực</span>
+                    </div>
+                    <div class="room-content">
+                        <p class="room-location">@room.District</p>
+                        <h3>@room.Title</h3>
+                        <p class="room-address">@room.Address</p>
+                        <div class="room-meta"><strong>@room.Price.ToString("N0") đ</strong><small>@room.Area m²</small>
+                        </div>
+                        <div class="room-actions"><a asp-action="Detail" asp-route-id="@room.Id"
+                                class="btn btn-sm btn-outline-primary">Chi tiết</a><a
+                                href="https://www.google.com/maps/search/?api=1&query=@roomMap" target="_blank"
+                                rel="noopener" class="map-link">Vị trí ↗</a></div>
+                    </div>
+                </article>
+            </div>
+            }
+        </div>
+        @if (Model.Rooms.Count == 0) { <div class="text-center py-5 text-muted">Chưa có phòng đúng với bộ lọc. Hãy thử
+            tăng mức giá hoặc bỏ bớt điều kiện.</div> }
+    </div>
