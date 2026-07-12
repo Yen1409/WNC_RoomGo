@@ -73,7 +73,7 @@ public class Listing
     public decimal Price { get; set; }
 
     [Range(1, 1000)]
-    public double  Area { get; set; }
+    public double Area { get; set; }
 
     [Required]
     public string Description { get; set; } = "";

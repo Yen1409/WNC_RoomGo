@@ -1,0 +1,158 @@
+@model Listing
+@{
+    ViewData["Title"] = "Sửa tin đăng";
+}
+
+<div class="container py-4">
+    <h1 class="h3">✏️ Sửa tin đăng</h1>
+    <p class="text-muted">Cập nhật thông tin tin đăng của bạn. Sau khi sửa, tin sẽ được gửi lại để duyệt.</p>
+
+    @if (TempData["Success"] is string success)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @success
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <form method="post" class="row g-3" enctype="multipart/form-data">
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="OwnerId" />
+        <input type="hidden" asp-for="Latitude" />
+        <input type="hidden" asp-for="Longitude" />
+        <input type="hidden" asp-for="CreatedAt" />
+        <input type="hidden" asp-for="Status" />
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="col-md-6">
+            <label asp-for="Title" class="form-label fw-semibold"></label>
+            <input asp-for="Title" class="form-control" placeholder="Ví dụ: Phòng trọ khép kín full nội thất" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="Address" class="form-label fw-semibold">Địa chỉ chi tiết</label>
+            <input asp-for="Address" class="form-control" placeholder="Ví dụ: 45 Đại Cồ Việt" />
+            <span asp-validation-for="Address" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="District" class="form-label fw-semibold">Quận / huyện</label>
+            <input asp-for="District" class="form-control" placeholder="Ví dụ: Hai Bà Trưng" />
+            <span asp-validation-for="District" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="Price" class="form-label fw-semibold"></label>
+            <input asp-for="Price" class="form-control" placeholder="Giá thuê" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="Area" class="form-label fw-semibold"></label>
+            <input asp-for="Area" class="form-control" placeholder="Diện tích (m²)" />
+            <span asp-validation-for="Area" class="text-danger"></span>
+        </div>
+
+        <div class="col-12">
+            <label asp-for="Amenities" class="form-label fw-semibold"></label>
+            <input asp-for="Amenities" class="form-control" placeholder="Điều hòa, nóng lạnh, thang máy..." />
+            <span asp-validation-for="Amenities" class="text-danger"></span>
+        </div>
+
+        <div class="col-12">
+            <label asp-for="Description" class="form-label fw-semibold">Mô tả chi tiết</label>
+            <textarea asp-for="Description" class="form-control" rows="6"
+                placeholder="Mô tả không gian phòng, nội thất, an ninh, giờ giấc, chi phí phát sinh và tiện ích xung quanh."></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="col-12">
+            <label class="form-label fw-semibold">Hình ảnh hiện tại</label>
+            <div class="row g-2">
+                @if (Model.Images != null && Model.Images.Any())
+                {
+                    @foreach (var img in Model.Images)
+                    {
+                        <div class="col-3" id="image-@img.Id">
+                            <div class="position-relative">
+                                <img src="@img.Url" class="w-100 rounded" style="height: 100px; object-fit: cover;" alt="Ảnh phòng" />
+                                <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1" 
+                                        onclick="deleteImage(@img.Id)" title="Xóa ảnh">
+                                    <i class="bi bi-x-lg"></i>
+                                </button>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="col-12 text-muted">Chưa có ảnh nào</div>
+                }
+            </div>
+        </div>
+
+        <div class="col-12">
+            <label class="form-label fw-semibold">Thêm ảnh mới</label>
+            <input type="file" name="images" class="form-control" multiple accept="image/*" />
+            <small class="text-muted">Có thể chọn nhiều ảnh (JPEG, PNG, GIF)</small>
+        </div>
+
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-save"></i> Cập nhật
+            </button>
+            <a asp-action="Mine" class="btn btn-outline-secondary">Quay lại</a>
+        </div>
+    </form>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+}
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js"></script>
+    
+    <script>
+        function deleteImage(imageId) {
+            if (!confirm('Bạn có chắc muốn xóa ảnh này?')) return;
+
+            fetch(`/Listings/DeleteImage/${imageId}`, {
+                method: 'POST',
+                headers: {
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById(`image-${imageId}`).remove();
+                    showToast('Đã xóa ảnh thành công');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Có lỗi xảy ra khi xóa ảnh');
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'alert alert-success alert-dismissible fade show position-fixed bottom-0 end-0 m-3';
+            toast.style.zIndex = '9999';
+            toast.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.transition = 'opacity 0.5s';
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 500);
+            }, 3000);
+        }
+    </script>
+}

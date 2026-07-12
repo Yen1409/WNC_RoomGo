@@ -45,6 +45,17 @@ builder.Services.AddSignalR();
 builder.Services.AddHttpClient<IGeocodingService, GeocodingService>();
 builder.Services.AddDbContext<RoomGoDbContext>(o => o.UseSqlServer(finalConnectionString));
 
+// THÊM CẤU HÌNH SESSION
+builder.Services.AddDistributedMemoryCache(); // Lưu session trong memory
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Thời gian hết hạn session
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(o =>
     {
@@ -63,12 +74,15 @@ var app = builder.Build();
 //     DbSeeder.Seed(db);
 // }
 
-//app.UseExceptionHandler("/Home/Error");
 app.UseDeveloperExceptionPage();
 app.UseHsts();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+
+// THÊM DÒNG NÀY - Sử dụng Session
+app.UseSession();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
