@@ -42,7 +42,9 @@ public class AdminController(RoomGoDbContext db) : Controller
         var u = await db.Users.FindAsync(id);
         if (u is null)
             return NotFound();
-        u.IsLocked = !u.IsLocked;
+        
+        // Sửa logic toggle: nếu đang "Đã khóa" thì chuyển thành "Hoạt động" và ngược lại
+        u.sTrangThai = u.sTrangThai == "Đã khóa" ? "Hoạt động" : "Đã khóa";
         await db.SaveChangesAsync();
         return RedirectToAction(nameof(Users));
     }

@@ -3,11 +3,24 @@
     ViewData["Title"] = Model.Title;
     var mapQuery = Uri.EscapeDataString($"{Model.Address}, {Model.District}, Hà Nội, Việt Nam");
     var mapLink = $"https://www.google.com/maps/search/?api=1&query={mapQuery}";
+    var imageUrl = Model.Images.Count > 0 ? Model.Images[0].Url : "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=900&q=85";
 }
 <div class="container py-5">
     <div class="row g-4">
-        <div class="col-lg-8"><img class="w-100 rounded-4" style="height:420px;object-fit:cover"
-                src="@Model.CoverImageUrl" alt="@Model.Title" />
+        <div class="col-lg-8">
+            <img class="w-100 rounded-4" style="height:420px;object-fit:cover"
+                src="@imageUrl" alt="@Model.Title" />
+            @if (Model.Images.Count > 1)
+            {
+            <div class="row g-2 mt-2">
+                @foreach (var img in Model.Images)
+                {
+                <div class="col-3">
+                    <img src="@img.Url" class="w-100 rounded-3" style="height:80px;object-fit:cover" alt="@img.Caption" />
+                </div>
+                }
+            </div>
+            }
             <h1 class="h2 mt-4">@Model.Title</h1>
             <p class="text-muted">📍 @Model.Address, @Model.District</p>
             <div class="display-6 text-primary mb-4">@Model.Price.ToString("N0") đ <small class="fs-6 text-muted">/

@@ -2,7 +2,7 @@
 <div class="container py-4">
     <h1 class="h3">Đăng tin cho thuê</h1>
     <p class="text-muted">Chỉ cần nhập địa chỉ đầy đủ; RoomGo sẽ tự xác định vị trí phòng trên bản đồ.</p>
-    <form method="post" class="row g-3">
+    <form method="post" class="row g-3" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="col-md-6"><label asp-for="Title"></label><input asp-for="Title" class="form-control" /></div>
         <div class="col-md-6"><label asp-for="Address">Địa chỉ chi tiết</label><input asp-for="Address"
@@ -12,13 +12,17 @@
                 class="form-control" placeholder="Ví dụ: Hai Bà Trưng" /></div>
         <div class="col-md-4"><label asp-for="Price"></label><input asp-for="Price" class="form-control" /></div>
         <div class="col-md-4"><label asp-for="Area"></label><input asp-for="Area" class="form-control" /></div>
-        <div class="col-12"><label asp-for="CoverImageUrl">Link ảnh đại diện</label><input asp-for="CoverImageUrl"
-                class="form-control" placeholder="https://..." /></div>
         <div class="col-12"><label asp-for="Amenities"></label><input asp-for="Amenities" class="form-control"
                 placeholder="Điều hòa, nóng lạnh, thang máy..." /></div>
         <div class="col-12"><label asp-for="Description">Mô tả chi tiết</label><textarea asp-for="Description"
                 class="form-control" rows="6"
                 placeholder="Mô tả không gian phòng, nội thất, an ninh, giờ giấc, chi phí phát sinh và tiện ích xung quanh."></textarea>
+        </div>
+        <!-- THÊM PHẦN UPLOAD ẢNH -->
+        <div class="col-12">
+            <label>Hình ảnh phòng</label>
+            <input type="file" name="images" class="form-control" multiple accept="image/*" />
+            <small class="text-muted">Có thể chọn nhiều ảnh</small>
         </div>
         <div><button class="btn btn-primary">Gửi duyệt tin</button></div>
     </form>

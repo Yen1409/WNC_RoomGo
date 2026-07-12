@@ -60,8 +60,8 @@ public class HomeController(RoomGoDbContext db, IGeocodingService geocoding) : C
                             Distance(
                                 point.Value.Lat,
                                 point.Value.Lng,
-                                x.Latitude!.Value,
-                                x.Longitude!.Value
+                                (double)x.Latitude!.Value,  // Ép kiểu sang double
+                                (double)x.Longitude!.Value  // Ép kiểu sang double
                             )
                         )
                         .Take(8)
@@ -85,8 +85,8 @@ public class HomeController(RoomGoDbContext db, IGeocodingService geocoding) : C
                     && Distance(
                         q.Latitude.Value,
                         q.Longitude.Value,
-                        x.Latitude.Value,
-                        x.Longitude.Value
+                        (double)x.Latitude!.Value,    
+                        (double)x.Longitude!.Value  
                     ) <= q.RadiusKm.Value
                 )
                 .ToList();
@@ -108,6 +108,7 @@ public class HomeController(RoomGoDbContext db, IGeocodingService geocoding) : C
 
     private static double Distance(double a, double b, double c, double d)
     {
+        
         const double earthRadiusKm = 6371;
         var radians = Math.PI / 180;
         var h =

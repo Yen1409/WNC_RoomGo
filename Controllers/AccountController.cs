@@ -33,6 +33,7 @@ public class AccountController(RoomGoDbContext db) : Controller
                 FullName = vm.FullName,
                 Email = vm.Email,
                 PasswordHash = vm.Password,
+                sTrangThai = "Hoạt động" // Thêm dòng này
             }
         );
         await db.SaveChangesAsync();
@@ -51,7 +52,7 @@ public class AccountController(RoomGoDbContext db) : Controller
         var u = await db.Users.SingleOrDefaultAsync(x =>
             x.Email == vm.Email && x.PasswordHash == vm.Password
         );
-        if (u is null || u.IsLocked)
+        if (u is null || u.sTrangThai == "Đã khóa")  // Sửa thành "Đã khóa" (có dấu)
         {
             ModelState.AddModelError("", "Email, mật khẩu không đúng hoặc tài khoản bị khóa.");
             return View(vm);

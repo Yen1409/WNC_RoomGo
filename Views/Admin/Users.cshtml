@@ -14,10 +14,10 @@
                 <td>@u.FullName</td>
                 <td>@u.Email</td>
                 <td>@u.Role</td>
-                <td>@(u.IsLocked?"Đã khóa":"Hoạt động")</td>
+                <td>@(u.sTrangThai == "Da khoa" ? "Đã khóa" : "Hoạt động")</td>
                 <td>
                     <form method="post" asp-action="ToggleLock" asp-route-id="@u.Id"><button
-                            class="btn btn-sm btn-outline-danger">@(u.IsLocked?"Mở khóa":"Khóa")</button></form>
+                            class="btn btn-sm btn-outline-danger">@(u.sTrangThai == "Da khoa" ? "Mở khóa" : "Khóa")</button></form>
                 </td>
             </tr>}</tbody>
     </table>

@@ -24,8 +24,23 @@
                             asp-action="Mine">Tin của tôi</a></li>}@if(User.IsInRole("Admin")){<li class="nav-item"><a
                             class="nav-link" asp-controller="Admin" asp-action="Dashboard">Quản trị</a></li>}<li
                         class="nav-item">
-                        <form asp-controller="Account" asp-action="Logout" method="post"><button
-                                class="btn nav-link">Đăng xuất</button></form>
+                        <div class="dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                Tài khoản
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                <form asp-controller="Account" asp-action="Profile" method="get">
+                                    <button class="dropdown-item">Hồ sơ</button>
+                                </form>
+                                </li>
+                                <li>
+                                <form asp-controller="Account" asp-action="Logout" method="post">
+                                    <button class="dropdown-item">Đăng xuất</button>
+                                </form>
+                                </li>
+                            </ul>
+                        </div> 
                     </li>}else{<li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Login">Đăng
                             nhập</a></li>
                     <li class="nav-item"><a class="btn nav-cta" asp-controller="Account" asp-action="Register">Đăng

@@ -4,23 +4,33 @@ namespace RoomGoHanoi.Models;
 
 public enum UserRole
 {
+    [Display(Name = "Người thuê")]
     Tenant,
+    [Display(Name = "Chủ trọ")]
     Owner,
+    [Display(Name = "Admin")]
     Admin,
 }
 
 public enum ListingStatus
 {
+    [Display(Name = "Chờ duyệt")]
     Pending,
+    [Display(Name = "Đã duyệt")]
     Approved,
+    [Display(Name = "Từ chối")]
     Rejected,
+    [Display(Name = "Đã ẩn")]
     Hidden,
 }
 
 public enum ReportStatus
 {
+    [Display(Name = "Chưa xử lý")]
     Pending,
+    [Display(Name = "Đã xử lý")]
     Resolved,
+    [Display(Name = "Từ chối")]
     Rejected,
 }
 
@@ -39,8 +49,9 @@ public class AppUser
     public string? Phone { get; set; }
     public UserRole Role { get; set; } = UserRole.Tenant;
     public bool PhoneVerified { get; set; }
-    public bool IsLocked { get; set; }
+    public string sTrangThai { get; set; } = "Hoạt động";
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public string? AvatarUrl { get; set; } 
 }
 
 public class Listing
@@ -62,15 +73,13 @@ public class Listing
     public decimal Price { get; set; }
 
     [Range(1, 1000)]
-    public double Area { get; set; }
+    public double  Area { get; set; }
 
     [Required]
     public string Description { get; set; } = "";
     public string Amenities { get; set; } = "";
-    public string CoverImageUrl { get; set; } =
-        "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=900&q=85";
-    public double? Latitude { get; set; }
-    public double? Longitude { get; set; }
+    public decimal? Latitude { get; set; }
+    public decimal? Longitude { get; set; }
     public ListingStatus Status { get; set; } = ListingStatus.Pending;
     public string? RejectionReason { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
