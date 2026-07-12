@@ -452,7 +452,6 @@ D:\WebNangCao\WNC_RoomGo-main\obj\Debug\net9.0\rjimswa.dswa.cache.json
 D:\WebNangCao\WNC_RoomGo-main\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
 D:\WebNangCao\WNC_RoomGo-main\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
 D:\WebNangCao\WNC_RoomGo-main\obj\Debug\net9.0\scopedcss\bundle\RoomGoHanoi.styles.css
-D:\WebNangCao\WNC_RoomGo-main\obj\Debug\net9.0\compressed\wax445qbkw-{0}-o0jalvyl97-o0jalvyl97.gz
 D:\WebNangCao\WNC_RoomGo-main\obj\Debug\net9.0\staticwebassets.build.json
 D:\WebNangCao\WNC_RoomGo-main\obj\Debug\net9.0\staticwebassets.build.json.cache
 D:\WebNangCao\WNC_RoomGo-main\obj\Debug\net9.0\staticwebassets.development.json
@@ -464,3 +463,7 @@ D:\WebNangCao\WNC_RoomGo-main\obj\Debug\net9.0\refint\RoomGoHanoi.dll
 D:\WebNangCao\WNC_RoomGo-main\obj\Debug\net9.0\RoomGoHanoi.pdb
 D:\WebNangCao\WNC_RoomGo-main\obj\Debug\net9.0\RoomGoHanoi.genruntimeconfig.cache
 D:\WebNangCao\WNC_RoomGo-main\obj\Debug\net9.0\ref\RoomGoHanoi.dll
+D:\WebNangCao\WNC_RoomGo-main\bin\Debug\net9.0\AngleSharp.dll
+D:\WebNangCao\WNC_RoomGo-main\bin\Debug\net9.0\AngleSharp.Css.dll
+D:\WebNangCao\WNC_RoomGo-main\bin\Debug\net9.0\HtmlSanitizer.dll
+D:\WebNangCao\WNC_RoomGo-main\obj\Debug\net9.0\compressed\wax445qbkw-{0}-k2evgo2i3r-k2evgo2i3r.gz

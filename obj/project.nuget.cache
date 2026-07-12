@@ -1,11 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "JWMfUxyxUvM=",
+  "dgSpecHash": "5tx6gtWqURI=",
   "success": true,
   "projectFilePath": "D:\\WebNangCao\\WNC_RoomGo-main\\RoomGoHanoi.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\NGUYEN THI YEN\\.nuget\\packages\\anglesharp\\0.17.1\\anglesharp.0.17.1.nupkg.sha512",
+    "C:\\Users\\NGUYEN THI YEN\\.nuget\\packages\\anglesharp.css\\0.17.0\\anglesharp.css.0.17.0.nupkg.sha512",
     "C:\\Users\\NGUYEN THI YEN\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\NGUYEN THI YEN\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
+    "C:\\Users\\NGUYEN THI YEN\\.nuget\\packages\\htmlsanitizer\\9.0.892\\htmlsanitizer.9.0.892.nupkg.sha512",
     "C:\\Users\\NGUYEN THI YEN\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\NGUYEN THI YEN\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\7.0.0\\microsoft.bcl.asyncinterfaces.7.0.0.nupkg.sha512",
     "C:\\Users\\NGUYEN THI YEN\\.nuget\\packages\\microsoft.build.framework\\17.8.3\\microsoft.build.framework.17.8.3.nupkg.sha512",
@@ -49,6 +52,7 @@
     "C:\\Users\\NGUYEN THI YEN\\.nuget\\packages\\microsoft.sqlserver.server\\1.0.0\\microsoft.sqlserver.server.1.0.0.nupkg.sha512",
     "C:\\Users\\NGUYEN THI YEN\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
     "C:\\Users\\NGUYEN THI YEN\\.nuget\\packages\\mono.texttemplating\\3.0.0\\mono.texttemplating.3.0.0.nupkg.sha512",
+    "C:\\Users\\NGUYEN THI YEN\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
     "C:\\Users\\NGUYEN THI YEN\\.nuget\\packages\\system.clientmodel\\1.0.0\\system.clientmodel.1.0.0.nupkg.sha512",
     "C:\\Users\\NGUYEN THI YEN\\.nuget\\packages\\system.codedom\\6.0.0\\system.codedom.6.0.0.nupkg.sha512",
     "C:\\Users\\NGUYEN THI YEN\\.nuget\\packages\\system.collections.immutable\\7.0.0\\system.collections.immutable.7.0.0.nupkg.sha512",

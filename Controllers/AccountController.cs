@@ -62,6 +62,7 @@ public class AccountController(RoomGoDbContext db) : Controller
             new Claim(ClaimTypes.NameIdentifier, u.Id.ToString()),
             new Claim(ClaimTypes.Name, u.FullName),
             new Claim(ClaimTypes.Role, u.Role.ToString()),
+            new Claim("AppInstance", Environment.ProcessId.ToString()),
         };
         await HttpContext.SignInAsync(
             CookieAuthenticationDefaults.AuthenticationScheme,

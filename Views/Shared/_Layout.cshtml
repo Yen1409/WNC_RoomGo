@@ -82,6 +82,15 @@
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     @await RenderSectionAsync("Scripts", false)
+    <script>
+        // Thiết lập AntiForgery Token cho tất cả AJAX requests
+        $(document).ajaxSend(function(xhr, settings) {
+            const token = $('input[name="__RequestVerificationToken"]').val();
+            if (token) {
+                xhr.setRequestHeader('RequestVerificationToken', token);
+            }
+        });
+    </script>
 </body>
 
 </html>

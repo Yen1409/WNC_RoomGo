@@ -275,6 +275,12 @@
         const previewContainer = document.getElementById('previewContainer');
         const files = [];
 
+        function syncFileInput() {
+            const dataTransfer = new DataTransfer();
+            files.forEach(file => dataTransfer.items.add(file));
+            fileInput.files = dataTransfer.files;
+        }
+
         // Nếu có ảnh từ TempData, thêm vào files
         @if (TempData["ImageCount"] is int imgCount && imgCount > 0)
         {
@@ -324,12 +330,20 @@
                     alert(`File "${file.name}" không phải là hình ảnh.`);
                     continue;
                 }
-                
-                files.push(file);
-                displayPreview(file);
+
+                const alreadyExists = files.some(existing =>
+                    existing.name === file.name &&
+                    existing.size === file.size &&
+                    existing.lastModified === file.lastModified
+                );
+
+                if (!alreadyExists) {
+                    files.push(file);
+                    displayPreview(file);
+                }
             }
             
-            fileInput.value = '';
+            syncFileInput();
         }
 
         function displayPreview(file) {
@@ -366,6 +380,8 @@
                         break;
                     }
                 }
+
+                syncFileInput();
             }
         }
 

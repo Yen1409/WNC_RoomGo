@@ -3,8 +3,6 @@
     ViewData["Title"] = "Tin đăng của tôi";
     var isAdmin = User.IsInRole("Admin");
     var isOwner = User.IsInRole("Owner");
-    
-    // Lấy UserId từ Session
     var userId = Context.Session.GetInt32("UserId") ?? 0;
 }
 
@@ -13,7 +11,7 @@
         <div>
             <h1 class="h3 mb-0">📋 @(isAdmin ? "Quản lý tin đăng" : "Tin đăng của tôi")</h1>
             <p class="text-muted small">
-                @(isAdmin ? "Xem tất cả tin đăng trên hệ thống" : "Quản lý tất cả tin đăng của bạn")
+                @(isAdmin ? "Tất cả tin được đăng trên hệ thống" : "Tất cả tin đăng của bạn")
             </p>
         </div>
         @if (isOwner)
@@ -23,6 +21,8 @@
             </a>
         }
     </div>
+
+    <div id="notification-area"></div>
 
     @if (TempData["Success"] != null)
     {
@@ -84,7 +84,7 @@
                             _ => x.Status.ToString()
                         };
 
-                        <tr>
+                        <tr id="row-@x.Id">
                             <td class="text-center">@index</td>
                             <td>
                                 <img src="@imageUrl" alt="@x.Title" 
@@ -124,21 +124,15 @@
                                             <i class="bi bi-pencil"></i> Sửa
                                         </a>
                                         
-                                        <form method="post" asp-action="Hide" asp-route-id="@x.Id" 
-                                              class="d-inline-block" onsubmit="return confirm('Bạn có chắc muốn ẩn tin này?')">
-                                            @Html.AntiForgeryToken()
-                                            <button class="btn btn-outline-secondary" title="Ẩn">
-                                                <i class="bi bi-eye-slash"></i> Ẩn
-                                            </button>
-                                        </form>
+                                        <button type="button" class="btn @(x.Status == ListingStatus.Hidden ? "btn-outline-success" : "btn-outline-secondary")" 
+                                                onclick="toggleListingVisibility(@x.Id, @(x.Status == ListingStatus.Hidden ? "true" : "false"))" title="@(x.Status == ListingStatus.Hidden ? "Hiện" : "Ẩn")">
+                                            <i class="bi @(x.Status == ListingStatus.Hidden ? "bi-eye" : "bi-eye-slash")"></i> @(x.Status == ListingStatus.Hidden ? "Hiện" : "Ẩn")
+                                        </button>
                                         
-                                        <form method="post" asp-action="Delete" asp-route-id="@x.Id" 
-                                              class="d-inline-block" onsubmit="return confirm('Bạn có chắc muốn xóa tin này? Hành động này không thể hoàn tác!')">
-                                            @Html.AntiForgeryToken()
-                                            <button class="btn btn-outline-danger" title="Xóa">
-                                                <i class="bi bi-trash"></i> Xóa
-                                            </button>
-                                        </form>
+                                        <button type="button" class="btn btn-outline-danger" 
+                                                onclick="deleteListing(@x.Id)" title="Xóa">
+                                            <i class="bi bi-trash"></i> Xóa
+                                        </button>
                                     </div>
                                 }
                                 else if (isAdmin)
@@ -160,8 +154,148 @@
 </div>
 
 @section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        // Tự động ẩn thông báo sau 3 giây
+        // Hàm hiển thị thông báo
+        function showToast(message, type = 'success') {
+            const colors = {
+                success: '#28a745',
+                danger: '#dc3545',
+                warning: '#ffc107',
+                info: '#17a2b8'
+            };
+            
+            const toast = document.createElement('div');
+            toast.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+            toast.style.cssText = `
+                top: 20px;
+                right: 20px;
+                z-index: 9999;
+                min-width: 300px;
+                max-width: 500px;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                border-left: 4px solid ${colors[type] || '#28a745'};
+            `;
+            toast.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            `;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.transition = 'opacity 0.5s';
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 500);
+            }, 5000);
+        }
+
+        // Xóa tin (AJAX)
+        function deleteListing(id) {
+            Swal.fire({
+                title: 'Bạn có chắc chắn?',
+                text: "Bạn sẽ không thể khôi phục lại tin đăng này!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const token = document.querySelector('input[name="__RequestVerificationToken"]');
+                    const tokenValue = token ? token.value : '';
+
+                    fetch(`/Listings/Delete/${id}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'RequestVerificationToken': tokenValue
+                        },
+                        credentials: 'same-origin'
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            const row = document.getElementById(`row-${id}`);
+                            if (row) {
+                                row.style.transition = 'opacity 0.5s';
+                                row.style.opacity = '0';
+                                setTimeout(() => {
+                                    row.remove();
+                                    // Cập nhật lại số thứ tự
+                                    updateRowNumbers();
+                                    showToast(data.message || 'Xóa tin thành công!', 'success');
+                                }, 500);
+                            } else {
+                                location.reload();
+                            }
+                        } else {
+                            showToast(data.message || 'Có lỗi xảy ra khi xóa tin!', 'danger');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        showToast('Có lỗi xảy ra khi xóa tin!', 'danger');
+                    });
+                }
+            });
+        }
+
+        // Ẩn/Hiện tin (AJAX)
+        function toggleListingVisibility(id, isHidden) {
+            Swal.fire({
+                title: isHidden ? 'Bạn có chắc chắn hiện lại tin này?' : 'Bạn có chắc chắn ẩn tin này?',
+                text: isHidden
+                    ? 'Tin đăng sẽ được hiện lại trên trang tìm kiếm.'
+                    : 'Tin đăng sẽ bị ẩn khỏi trang tìm kiếm.',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: isHidden ? '#28a745' : '#ffc107',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: isHidden ? 'Hiện' : 'Ẩn',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const token = document.querySelector('input[name="__RequestVerificationToken"]');
+                    const tokenValue = token ? token.value : '';
+
+                    fetch(`/Listings/Hide/${id}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'RequestVerificationToken': tokenValue
+                        },
+                        credentials: 'same-origin'
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            showToast(data.message || (isHidden ? 'Hiện tin thành công!' : 'Ẩn tin thành công!'), 'success');
+                            setTimeout(() => location.reload(), 1000);
+                        } else {
+                            showToast(data.message || 'Có lỗi xảy ra!', 'danger');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        showToast('Có lỗi xảy ra!', 'danger');
+                    });
+                }
+            });
+        }
+
+        // Cập nhật số thứ tự
+        function updateRowNumbers() {
+            const rows = document.querySelectorAll('tbody tr');
+            rows.forEach((row, index) => {
+                const firstCell = row.querySelector('td:first-child');
+                if (firstCell) {
+                    firstCell.textContent = index + 1;
+                }
+            });
+        }
+
+        // Tự động ẩn thông báo
         setTimeout(() => {
             const alerts = document.querySelectorAll('.alert');
             alerts.forEach(alert => {

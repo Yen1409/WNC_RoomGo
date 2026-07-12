@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -61,6 +62,32 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         o.LoginPath = "/Account/Login";
         o.AccessDeniedPath = "/Home/AccessDenied";
+        o.Events = new CookieAuthenticationEvents
+        {
+            OnValidatePrincipal = async context =>
+            {
+                var principal = context.Principal;
+                if (principal?.Identity?.IsAuthenticated != true)
+                {
+                    return;
+                }
+
+                var currentInstance = Environment.ProcessId.ToString();
+                var instanceClaim = principal.FindFirst("AppInstance");
+
+                if (instanceClaim is null || instanceClaim.Value != currentInstance)
+                {
+                    context.RejectPrincipal();
+                    var httpContext = context.HttpContext;
+                    if (httpContext is not null)
+                    {
+                        httpContext.Session?.Clear();
+                        await httpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                        context.Response.Redirect("/");
+                    }
+                }
+            }
+        };
     });
 
 builder.Services.AddAuthorization();

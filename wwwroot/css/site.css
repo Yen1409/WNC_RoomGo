@@ -366,3 +366,17 @@ body {
     padding-bottom: 55px;
   }
 }
+
+@media (max-width: 576px) {
+    .preview-item {
+        width: 100px;
+        height: 100px;
+    }
+    .btn-group-sm {
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+    .drop-zone {
+        padding: 15px;
+    }
+}
