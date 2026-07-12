@@ -1,24 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "D:\\WebNangCao\\WNC_RoomGo-main\\RoomGoHanoi.csproj": {}
+    "C:\\THỰC HÀNH_LT WEB Nâng cao\\WNC_RoomGo\\RoomGoHanoi.csproj": {}
   },
   "projects": {
-    "D:\\WebNangCao\\WNC_RoomGo-main\\RoomGoHanoi.csproj": {
+    "C:\\THỰC HÀNH_LT WEB Nâng cao\\WNC_RoomGo\\RoomGoHanoi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\WebNangCao\\WNC_RoomGo-main\\RoomGoHanoi.csproj",
+        "projectUniqueName": "C:\\THỰC HÀNH_LT WEB Nâng cao\\WNC_RoomGo\\RoomGoHanoi.csproj",
         "projectName": "RoomGoHanoi",
-        "projectPath": "D:\\WebNangCao\\WNC_RoomGo-main\\RoomGoHanoi.csproj",
-        "packagesPath": "C:\\Users\\NGUYEN THI YEN\\.nuget\\packages\\",
-        "outputPath": "D:\\WebNangCao\\WNC_RoomGo-main\\obj\\",
+        "projectPath": "C:\\THỰC HÀNH_LT WEB Nâng cao\\WNC_RoomGo\\RoomGoHanoi.csproj",
+        "packagesPath": "C:\\Users\\Thao\\.nuget\\packages\\",
+        "outputPath": "C:\\THỰC HÀNH_LT WEB Nâng cao\\WNC_RoomGo\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "D:\\WebNangCao\\WNC_RoomGo-main\\NuGet.Config",
-          "C:\\Users\\NGUYEN THI YEN\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\THỰC HÀNH_LT WEB Nâng cao\\WNC_RoomGo\\NuGet.Config",
+          "C:\\Users\\Thao\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,6 +26,7 @@
           "net9.0"
         ],
         "sources": {
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

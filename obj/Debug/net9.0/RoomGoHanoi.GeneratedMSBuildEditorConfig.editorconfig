@@ -19,81 +19,81 @@ build_property.TargetFrameworkIdentifier = .NETCoreApp
 build_property.TargetFrameworkVersion = v9.0
 build_property.RootNamespace = RoomGoHanoi
 build_property.RootNamespace = RoomGoHanoi
-build_property.ProjectDir = D:\WebNangCao\WNC_RoomGo-main\
+build_property.ProjectDir = C:\THỰC HÀNH_LT WEB Nâng cao\WNC_RoomGo\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 9.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\WebNangCao\WNC_RoomGo-main
+build_property.MSBuildProjectDirectory = C:\THỰC HÀNH_LT WEB Nâng cao\WNC_RoomGo
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 9.0
 build_property.EnableCodeStyleSeverity = 
 
-[D:/WebNangCao/WNC_RoomGo-main/Views/Account/Login.cshtml]
+[C:/THỰC HÀNH_LT WEB Nâng cao/WNC_RoomGo/Views/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/WebNangCao/WNC_RoomGo-main/Views/Account/Register.cshtml]
+[C:/THỰC HÀNH_LT WEB Nâng cao/WNC_RoomGo/Views/Account/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/WebNangCao/WNC_RoomGo-main/Views/Account/Upgrade.cshtml]
+[C:/THỰC HÀNH_LT WEB Nâng cao/WNC_RoomGo/Views/Account/Upgrade.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxVcGdyYWRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/WebNangCao/WNC_RoomGo-main/Views/Admin/Dashboard.cshtml]
+[C:/THỰC HÀNH_LT WEB Nâng cao/WNC_RoomGo/Views/Admin/Dashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGFzaGJvYXJkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/WebNangCao/WNC_RoomGo-main/Views/Admin/Listings.cshtml]
+[C:/THỰC HÀNH_LT WEB Nâng cao/WNC_RoomGo/Views/Admin/Listings.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTGlzdGluZ3MuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/WebNangCao/WNC_RoomGo-main/Views/Admin/Users.cshtml]
+[C:/THỰC HÀNH_LT WEB Nâng cao/WNC_RoomGo/Views/Admin/Users.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVXNlcnMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/WebNangCao/WNC_RoomGo-main/Views/Home/AccessDenied.cshtml]
+[C:/THỰC HÀNH_LT WEB Nâng cao/WNC_RoomGo/Views/Home/AccessDenied.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxBY2Nlc3NEZW5pZWQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/WebNangCao/WNC_RoomGo-main/Views/Home/Detail.cshtml]
+[C:/THỰC HÀNH_LT WEB Nâng cao/WNC_RoomGo/Views/Home/Detail.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxEZXRhaWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/WebNangCao/WNC_RoomGo-main/Views/Home/Error.cshtml]
+[C:/THỰC HÀNH_LT WEB Nâng cao/WNC_RoomGo/Views/Home/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxFcnJvci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/WebNangCao/WNC_RoomGo-main/Views/Home/Index.cshtml]
+[C:/THỰC HÀNH_LT WEB Nâng cao/WNC_RoomGo/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/WebNangCao/WNC_RoomGo-main/Views/Home/Search.cshtml]
+[C:/THỰC HÀNH_LT WEB Nâng cao/WNC_RoomGo/Views/Home/Search.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTZWFyY2guY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/WebNangCao/WNC_RoomGo-main/Views/Listings/Create.cshtml]
+[C:/THỰC HÀNH_LT WEB Nâng cao/WNC_RoomGo/Views/Listings/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGlzdGluZ3NcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/WebNangCao/WNC_RoomGo-main/Views/Listings/Mine.cshtml]
+[C:/THỰC HÀNH_LT WEB Nâng cao/WNC_RoomGo/Views/Listings/Mine.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGlzdGluZ3NcTWluZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/WebNangCao/WNC_RoomGo-main/Views/Shared/_AccountValidationScripts.cshtml]
+[C:/THỰC HÀNH_LT WEB Nâng cao/WNC_RoomGo/Views/Shared/_AccountValidationScripts.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9BY2NvdW50VmFsaWRhdGlvblNjcmlwdHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/WebNangCao/WNC_RoomGo-main/Views/Shared/_Layout.cshtml]
+[C:/THỰC HÀNH_LT WEB Nâng cao/WNC_RoomGo/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/WebNangCao/WNC_RoomGo-main/Views/_ViewImports.cshtml]
+[C:/THỰC HÀNH_LT WEB Nâng cao/WNC_RoomGo/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/WebNangCao/WNC_RoomGo-main/Views/_ViewStart.cshtml]
+[C:/THỰC HÀNH_LT WEB Nâng cao/WNC_RoomGo/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
