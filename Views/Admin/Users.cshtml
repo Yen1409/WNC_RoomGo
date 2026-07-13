@@ -1,6 +1,10 @@
 @model IEnumerable<AppUser>
+@{
+    ViewData["title"] = "Quản lý tài khoản";
+}
+<div class="container py-4">
     <h1 class="h3">Quản lý tài khoản</h1>
-    <table class="table">
+    <table class="table table-hover table-striped align-middle">
         <thead>
             <tr>
                 <th>Họ tên</th>
@@ -14,10 +18,14 @@
                 <td>@u.FullName</td>
                 <td>@u.Email</td>
                 <td>@u.Role</td>
-                <td>@(u.sTrangThai == "Da khoa" ? "Đã khóa" : "Hoạt động")</td>
+                <td>@u.sTrangThai </td>
                 <td>
-                    <form method="post" asp-action="ToggleLock" asp-route-id="@u.Id"><button
-                            class="btn btn-sm btn-outline-danger">@(u.sTrangThai == "Da khoa" ? "Mở khóa" : "Khóa")</button></form>
+                    <form method="post" asp-action="ToggleLock" asp-route-id="@u.Id"><button class="btn btn-sm btn-outline-danger">
+                            @(u.sTrangThai.Equals("Đã khóa") ? "Mở khóa" : "Khóa")
+                        </button>
+                    </form>
                 </td>
-            </tr>}</tbody>
+            </tr>}
+            </tbody>
     </table>
+</div>
