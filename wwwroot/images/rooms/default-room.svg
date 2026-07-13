@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="RoomGo placeholder image">
+  <rect width="1200" height="800" fill="#f5f7fb"/>
+  <rect x="70" y="90" width="1060" height="620" rx="36" fill="#ffffff" stroke="#d7e0eb" stroke-width="8"/>
+  <rect x="140" y="180" width="420" height="320" rx="22" fill="#dfe7f3"/>
+  <rect x="620" y="180" width="420" height="40" rx="20" fill="#8ab4f8"/>
+  <rect x="620" y="250" width="320" height="24" rx="12" fill="#bcd0f0"/>
+  <rect x="620" y="300" width="360" height="24" rx="12" fill="#bcd0f0"/>
+  <rect x="620" y="360" width="300" height="24" rx="12" fill="#bcd0f0"/>
+  <rect x="140" y="560" width="220" height="24" rx="12" fill="#8ab4f8"/>
+  <rect x="390" y="560" width="160" height="24" rx="12" fill="#bcd0f0"/>
+  <circle cx="960" cy="560" r="90" fill="#f1b6b6"/>
+  <path d="M905 560c18-50 74-80 124-61 24 9 43 29 52 52" fill="none" stroke="#cf7f7f" stroke-width="14" stroke-linecap="round"/>
+</svg>

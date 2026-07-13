@@ -467,3 +467,11 @@ D:\WebNangCao\WNC_RoomGo-main\bin\Debug\net9.0\AngleSharp.dll
 D:\WebNangCao\WNC_RoomGo-main\bin\Debug\net9.0\AngleSharp.Css.dll
 D:\WebNangCao\WNC_RoomGo-main\bin\Debug\net9.0\HtmlSanitizer.dll
 D:\WebNangCao\WNC_RoomGo-main\obj\Debug\net9.0\compressed\wax445qbkw-{0}-k2evgo2i3r-k2evgo2i3r.gz
+D:\WebNangCao\WNC_RoomGo-main\obj\Debug\net9.0\compressed\kx79mvdtv0-{0}-vne6sdrd4u-vne6sdrd4u.gz
+D:\WebNangCao\WNC_RoomGo-main\obj\Debug\net9.0\compressed\0uyxf8ohr6-{0}-46ein0sx1k-46ein0sx1k.gz
+D:\WebNangCao\WNC_RoomGo-main\obj\Debug\net9.0\compressed\hdiqgwv13p-{0}-493y06b0oq-493y06b0oq.gz
+D:\WebNangCao\WNC_RoomGo-main\obj\Debug\net9.0\compressed\5zfx4hbbqy-{0}-48y08845bh-48y08845bh.gz
+D:\WebNangCao\WNC_RoomGo-main\obj\Debug\net9.0\compressed\s6xal5i4ec-{0}-b7iojwaux1-b7iojwaux1.gz
+D:\WebNangCao\WNC_RoomGo-main\obj\Debug\net9.0\compressed\2d7x1586bi-{0}-o1o13a6vjx-o1o13a6vjx.gz
+D:\WebNangCao\WNC_RoomGo-main\obj\Debug\net9.0\compressed\1294jtxykd-{0}-m3i9f6419i-m3i9f6419i.gz
+D:\WebNangCao\WNC_RoomGo-main\obj\Debug\net9.0\compressed\yq8fnn5cxa-{0}-f88temgz99-f88temgz99.gz

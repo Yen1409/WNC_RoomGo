@@ -4,6 +4,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using RoomGoHanoi.Data;
 using RoomGoHanoi.Hubs;
+using RoomGoHanoi.Repositories;
 using RoomGoHanoi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +17,7 @@ if (!string.IsNullOrEmpty(connectionString))
 {
     connectionString = connectionString.Replace("\\\\", "\\");
 }
+builder.Services.AddScoped<IListingRepository, ListingRepository>();
 
 var databaseName = "db_RoomGoWNC";
 var candidates = new List<string>();

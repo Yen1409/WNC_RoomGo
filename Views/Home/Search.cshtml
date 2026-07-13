@@ -1,62 +1,208 @@
 @model (SearchVm Query, List<Listing> Rooms)
-    @{
+@{
     ViewData["Title"] = "Tìm kiếm thông minh";
     var locationQuery = Uri.EscapeDataString($"{Model.Query.Keyword}, Hà Nội, Việt Nam");
-    }
-    <div class="container py-5">
-        <h1 class="h2 mb-3">Tìm kiếm thông minh</h1>
-            <form method="get" asp-controller="Home" asp-action="Search" class="search-panel mb-4">
-                <div class="row g-2">
-                    <div class="col-lg-5"><input name="Keyword" value="@Model.Query.Keyword" class="form-control"
-                            placeholder="Số nhà, tên đường, phường, quận..." /></div>
-                    <div class="col-lg-2"><input name="District" value="@Model.Query.District" class="form-control"
-                            placeholder="Quận/huyện" /></div>
-                    <div class="col-lg-3"><input name="MaxPrice" value="@Model.Query.MaxPrice" class="form-control"
-                            placeholder="Giá tối đa" /></div>
-                    <div class="col-lg-2"><button type="submit" class="btn btn-primary w-100">Tìm phòng</button></div>
-                </div>
-                <small>Ví dụ: <b>80 Ngọc Lâm, phường Ngọc Lâm, Long Biên</b>. Hệ thống hiển thị phòng đã được chủ trọ cập
-                    nhật gần vị trí đó.</small>
-            </form>
-        
-        @if (!string.IsNullOrWhiteSpace(Model.Query.Keyword))
-        {
+}
+
+<div class="container py-5">
+    <h1 class="h2 mb-3">Tìm kiếm thông minh</h1>
+    
+    <form method="get" asp-controller="Home" asp-action="Search" class="search-panel mb-4">
+        <div class="row g-2">
+            <div class="col-lg-5">
+                <input name="Keyword" value="@Model.Query.Keyword" class="form-control"
+                       placeholder="Số nhà, tên đường, phường, quận..." />
+            </div>
+            <div class="col-lg-2">
+                <input name="District" value="@Model.Query.District" class="form-control"
+                       placeholder="Quận/huyện" />
+            </div>
+            <div class="col-lg-3">
+                <input name="MaxPrice" value="@Model.Query.MaxPrice" class="form-control"
+                       placeholder="Giá tối đa" />
+            </div>
+            <div class="col-lg-2">
+                <button type="submit" class="btn btn-primary w-100">Tìm phòng</button>
+            </div>
+        </div>
+        <small>Ví dụ: <b>80 Ngọc Lâm, phường Ngọc Lâm, Long Biên</b>. Hệ thống hiển thị phòng đã được chủ trọ cập nhật gần vị trí đó.</small>
+    </form>
+
+    @if (!string.IsNullOrWhiteSpace(Model.Query.Keyword))
+    {
         <section class="search-map mb-4">
-            <div><span class="eyebrow">VỊ TRÍ BẠN TÌM</span>
+            <div>
+                <span class="eyebrow">VỊ TRÍ BẠN TÌM</span>
                 <h2 class="h5 mb-0">Bản đồ khu vực “@Model.Query.Keyword”</h2>
             </div>
-            <iframe title="Bản đồ khu vực tìm kiếm" src="https://www.google.com/maps?q=@locationQuery&z=15&output=embed"
-                loading="lazy"></iframe>
+            <iframe title="Bản đồ khu vực tìm kiếm" 
+                    src="https://www.google.com/maps?q=@locationQuery&z=15&output=embed"
+                    loading="lazy" 
+                    style="width:100%;height:300px;border:0;border-radius:8px;">
+            </iframe>
         </section>
-        }
-        @if (ViewBag.SearchHint is string hint) { <div class="alert alert-info">@hint</div> }
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2 class="h4 mb-0">Phòng trọ phù hợp</h2><span class="text-muted">@Model.Rooms.Count phòng</span>
+    }
+
+    @if (ViewBag.SearchHint is string hint) 
+    {
+        <div class="alert alert-info">@hint</div>
+    }
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h4 mb-0">Phòng trọ phù hợp</h2>
+        <span class="text-muted">@Model.Rooms.Count phòng</span>
+    </div>
+
+    @if (Model.Rooms.Count == 0)
+    {
+        <div class="text-center py-5 text-muted">
+            <div class="display-1">🔍</div>
+            <h3>Không tìm thấy phòng trọ</h3>
+            <p>Chưa có phòng đúng với bộ lọc. Hãy thử tăng mức giá hoặc bỏ bớt điều kiện.</p>
         </div>
+    }
+    else
+    {
         <div class="row g-4">
             @foreach (var room in Model.Rooms)
             {
-            var roomMap = Uri.EscapeDataString($"{room.Address}, {room.District}, Hà Nội, Việt Nam");
-            var imageUrl = room.Images.Count > 0 ? room.Images[0].Url : "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=900&q=85";
-            <div class="col-12 col-sm-6 col-lg-3">
-                <article class="room-card search-room-card h-100">
-                    <div class="room-image"><img src="@imageUrl" alt="@room.Title" /><span>Đã xác thực</span>
-                    </div>
-                    <div class="room-content">
-                        <p class="room-location">@room.District</p>
-                        <h3>@room.Title</h3>
-                        <p class="room-address">@room.Address</p>
-                        <div class="room-meta"><strong>@room.Price.ToString("N0") đ</strong><small>@room.Area m²</small>
+                // Xử lý ảnh - Lấy ảnh đầu tiên hoặc ảnh mặc định
+                var imageUrl = "/images/rooms/default-room.svg";
+                if (room.Images != null && room.Images.Count > 0)
+                {
+                    var img = room.Images.FirstOrDefault();
+                    if (img != null && !string.IsNullOrEmpty(img.Url))
+                    {
+                        // Nếu URL bắt đầu bằng / thì giữ nguyên, không thì thêm /
+                        imageUrl = img.Url.StartsWith("/") ? img.Url : $"/{img.Url.TrimStart('~', '/')}";
+                    }
+                }
+
+                var roomMap = Uri.EscapeDataString($"{room.Address}, {room.District}, Hà Nội, Việt Nam");
+
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <article class="room-card search-room-card h-100">
+                        <div class="room-image">
+                            <img src="@imageUrl" alt="@room.Title" 
+                                onerror="this.onerror=null; this.src='/images/rooms/default-room.svg'" />
+                            <span>Đã xác thực</span>
                         </div>
-                        <div class="room-actions"><a asp-action="Detail" asp-route-id="@room.Id"
-                                class="btn btn-sm btn-outline-primary">Chi tiết</a><a
-                                href="https://www.google.com/maps/search/?api=1&query=@roomMap" target="_blank"
-                                rel="noopener" class="map-link">Vị trí ↗</a></div>
-                    </div>
-                </article>
-            </div>
+                        <div class="room-content">
+                            <p class="room-location">@room.District</p>
+                            <h3>@room.Title</h3>
+                            <p class="room-address">@room.Address</p>
+                            <div class="room-meta">
+                                <strong>@room.Price.ToString("N0") đ</strong>
+                                <small>@room.Area m²</small>
+                            </div>
+                            <div class="room-actions">
+                                <a asp-action="Detail" asp-route-id="@room.Id"
+                                   class="btn btn-sm btn-outline-primary">Chi tiết</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=@roomMap" 
+                                   target="_blank" rel="noopener" class="map-link">Vị trí ↗</a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
             }
         </div>
-        @if (Model.Rooms.Count == 0) { <div class="text-center py-5 text-muted">Chưa có phòng đúng với bộ lọc. Hãy thử
-            tăng mức giá hoặc bỏ bớt điều kiện.</div> }
-    </div>
+    }
+</div>
+
+@section Styles {
+    <style>
+        .room-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            overflow: hidden;
+            background: white;
+        }
+        .room-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .room-content {
+            padding: 15px;
+        }
+        .room-location {
+            font-size: 12px;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+        .room-content h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            height: 48px;
+        }
+        .room-address {
+            font-size: 13px;
+            color: #6c757d;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        .room-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+        }
+        .room-meta strong {
+            color: #0d6efd;
+            font-size: 18px;
+        }
+        .room-meta small {
+            color: #6c757d;
+        }
+        .room-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .room-actions .btn {
+            flex: 1;
+            font-size: 12px;
+        }
+        .map-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            color: #6c757d;
+            text-decoration: none;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+        .map-link:hover {
+            background: #f8f9fa;
+            color: #0d6efd;
+        }
+        .search-map iframe {
+            width: 100%;
+            height: 300px;
+            border: 0;
+            border-radius: 8px;
+        }
+        .eyebrow {
+            font-size: 12px;
+            font-weight: 700;
+            color: #0d6efd;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    </style>
+}

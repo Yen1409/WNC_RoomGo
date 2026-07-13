@@ -56,19 +56,20 @@ public static class HtmlSanitizerHelper
         if (string.IsNullOrWhiteSpace(input))
             return string.Empty;
 
-        // Loại bỏ thẻ script
-        input = Regex.Replace(input, @"<script.*?</script>", string.Empty, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-        
+        // Chuyển các thẻ độc hại thành văn bản an toàn 
+        input = Regex.Replace(input, @"<\s*script\b[^>]*>.*?<\s*/\s*script\s*>", match => System.Net.WebUtility.HtmlEncode(match.Value), RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        input = Regex.Replace(input, @"</?(?!/?(?:b|i|u|strong|em|p|br|ul|ol|li|h1|h2|h3|h4|h5|h6|span|div|a)\b)[^>]*>", match => System.Net.WebUtility.HtmlEncode(match.Value), RegexOptions.IgnoreCase);
+
         // Loại bỏ sự kiện onclick, onload,...
         input = Regex.Replace(input, @"on\w+\s*=\s*""[^""]*""", string.Empty, RegexOptions.IgnoreCase);
         input = Regex.Replace(input, @"on\w+\s*=\s*'[^']*'", string.Empty, RegexOptions.IgnoreCase);
-        
+
         // Loại bỏ javascript:
         input = Regex.Replace(input, @"javascript:", string.Empty, RegexOptions.IgnoreCase);
-        
-        // Sử dụng HtmlSanitizer
+
+        // Sử dụng HtmlSanitizer cho các thẻ được phép
         input = _sanitizer.Sanitize(input);
-        
+
         return input;
     }
 

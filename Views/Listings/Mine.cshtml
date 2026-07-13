@@ -32,6 +32,14 @@
         </div>
     }
 
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
     @if (!Model.Any())
     {
         <div class="text-center py-5">
@@ -62,10 +70,18 @@
                     @{ int index = 1; }
                     @foreach (var x in Model)
                     {
-                        var imageUrl = x.Images != null && x.Images.Count > 0 
-                            ? x.Images[0].Url 
-                            : "/images/default-room.jpg";
-                            
+                        // XỬ LÝ ẢNH
+                        var imageUrl = "/images/rooms/default-room.svg";
+                        if (x.Images != null && x.Images.Count > 0)
+                        {
+                            var img = x.Images.FirstOrDefault();
+                            if (img != null && !string.IsNullOrEmpty(img.Url))
+                            {
+                                imageUrl = img.Url.StartsWith("/") ? img.Url : $"/{img.Url.TrimStart('~', '/')}";
+                            }
+                        }
+
+                        // XỬ LÝ TRẠNG THÁI
                         var statusColor = x.Status switch
                         {
                             ListingStatus.Pending => "warning",
@@ -80,7 +96,7 @@
                             ListingStatus.Pending => "⏳ Chờ duyệt",
                             ListingStatus.Approved => "✅ Đã duyệt",
                             ListingStatus.Rejected => "❌ Từ chối",
-                            ListingStatus.Hidden => "🙈 Đã ẩn",
+                            ListingStatus.Hidden => "👁️ Đã ẩn",
                             _ => x.Status.ToString()
                         };
 
@@ -88,9 +104,9 @@
                             <td class="text-center">@index</td>
                             <td>
                                 <img src="@imageUrl" alt="@x.Title" 
-                                     class="rounded" 
-                                     style="width: 50px; height: 50px; object-fit: cover;" 
-                                     onerror="this.onerror=null; this.src='/images/default-room.jpg'" />
+                                    class="rounded" 
+                                    style="width: 50px; height: 50px; object-fit: cover;" 
+                                    onerror="this.onerror=null; this.src='/images/rooms/default-room.svg'" />
                             </td>
                             <td>
                                 <div>
@@ -125,8 +141,10 @@
                                         </a>
                                         
                                         <button type="button" class="btn @(x.Status == ListingStatus.Hidden ? "btn-outline-success" : "btn-outline-secondary")" 
-                                                onclick="toggleListingVisibility(@x.Id, @(x.Status == ListingStatus.Hidden ? "true" : "false"))" title="@(x.Status == ListingStatus.Hidden ? "Hiện" : "Ẩn")">
-                                            <i class="bi @(x.Status == ListingStatus.Hidden ? "bi-eye" : "bi-eye-slash")"></i> @(x.Status == ListingStatus.Hidden ? "Hiện" : "Ẩn")
+                                                onclick="toggleListingVisibility(@x.Id, @(x.Status == ListingStatus.Hidden ? "true" : "false"))" 
+                                                title="@(x.Status == ListingStatus.Hidden ? "Hiện" : "Ẩn")">
+                                            <i class="bi @(x.Status == ListingStatus.Hidden ? "bi-eye" : "bi-eye-slash")"></i> 
+                                            @(x.Status == ListingStatus.Hidden ? "Hiện" : "Ẩn")
                                         </button>
                                         
                                         <button type="button" class="btn btn-outline-danger" 
@@ -154,9 +172,11 @@
 </div>
 
 @section Scripts {
+    <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
     <script>
-        // Hàm hiển thị thông báo
+        // 1. HÀM HIỂN THỊ TOAST THÔNG BÁO 
         function showToast(message, type = 'success') {
             const colors = {
                 success: '#28a745',
@@ -189,23 +209,32 @@
             }, 5000);
         }
 
-        // Xóa tin (AJAX)
+        // 2. XÓA TIN 
         function deleteListing(id) {
             Swal.fire({
-                title: 'Bạn có chắc chắn?',
-                text: "Bạn sẽ không thể khôi phục lại tin đăng này!",
+                title: 'Xác nhận xóa tin',
+                html: `
+                    <p style="font-size: 16px; color: #555;">
+                        Bạn có chắc chắn muốn xóa tin đăng này?
+                    </p>
+                    <p style="font-size: 14px; color: #dc3545; font-weight: bold;">
+                        Hành động này không thể hoàn tác!
+                    </p>
+                `,
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#d33',
+                confirmButtonColor: '#dc3545',
                 cancelButtonColor: '#6c757d',
-                confirmButtonText: 'Xóa',
-                cancelButtonText: 'Hủy'
-            }).then((result) => {
-                if (result.isConfirmed) {
+                confirmButtonText: 'Xóa ngay',
+                cancelButtonText: 'Hủy bỏ',
+                reverseButtons: true,
+                showLoaderOnConfirm: true,
+                allowOutsideClick: () => !Swal.isLoading(),
+                preConfirm: () => {
                     const token = document.querySelector('input[name="__RequestVerificationToken"]');
                     const tokenValue = token ? token.value : '';
 
-                    fetch(`/Listings/Delete/${id}`, {
+                    return fetch(`/Listings/Delete/${id}`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -215,51 +244,71 @@
                     })
                     .then(response => response.json())
                     .then(data => {
-                        if (data.success) {
-                            const row = document.getElementById(`row-${id}`);
-                            if (row) {
-                                row.style.transition = 'opacity 0.5s';
-                                row.style.opacity = '0';
-                                setTimeout(() => {
-                                    row.remove();
-                                    // Cập nhật lại số thứ tự
-                                    updateRowNumbers();
-                                    showToast(data.message || 'Xóa tin thành công!', 'success');
-                                }, 500);
-                            } else {
-                                location.reload();
-                            }
-                        } else {
-                            showToast(data.message || 'Có lỗi xảy ra khi xóa tin!', 'danger');
+                        if (!data.success) {
+                            throw new Error(data.message || 'Có lỗi xảy ra khi xóa tin!');
                         }
+                        return data;
                     })
                     .catch(error => {
-                        console.error('Error:', error);
-                        showToast('Có lỗi xảy ra khi xóa tin!', 'danger');
+                        Swal.showValidationMessage(error.message);
+                        throw error;
                     });
+                }
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const data = result.value;
+                    const row = document.getElementById(`row-${id}`);
+                    if (row) {
+                        row.style.transition = 'opacity 0.5s, transform 0.3s';
+                        row.style.transform = 'scale(0.95)';
+                        row.style.opacity = '0';
+                        setTimeout(() => {
+                            row.remove();
+                            updateRowNumbers();
+                            showToast(data.message || 'Xóa tin thành công!', 'success');
+                        }, 400);
+                    } else {
+                        location.reload();
+                    }
                 }
             });
         }
 
-        // Ẩn/Hiện tin (AJAX)
+        // 3. ẨN/HIỆN TIN 
         function toggleListingVisibility(id, isHidden) {
+            const title = isHidden ? 'Hiện lại tin' : 'Ẩn tin';
+            const icon = isHidden ? 'success' : 'warning';
+            const confirmButtonColor = isHidden ? '#28a745' : '#ffc107';
+            const confirmButtonText = isHidden ? 'Hiện lại' : 'Ẩn đi';
+            
+            const message = isHidden
+                ? 'Tin đăng sẽ được hiện lại trên trang tìm kiếm.'
+                : 'Tin đăng sẽ bị ẩn khỏi trang tìm kiếm.';
+
             Swal.fire({
-                title: isHidden ? 'Bạn có chắc chắn hiện lại tin này?' : 'Bạn có chắc chắn ẩn tin này?',
-                text: isHidden
-                    ? 'Tin đăng sẽ được hiện lại trên trang tìm kiếm.'
-                    : 'Tin đăng sẽ bị ẩn khỏi trang tìm kiếm.',
-                icon: 'question',
+                title: title,
+                html: `
+                    <p style="font-size: 16px; color: #555;">
+                        Bạn có chắc chắn muốn ${isHidden ? 'hiện lại' : 'ẩn'} tin đăng này?
+                    </p>
+                    <p style="font-size: 14px; color: ${isHidden ? '#28a745' : '#ffc107'};">
+                        ${isHidden ? 'Tin sẽ xuất hiện lại trên trang tìm kiếm.' : 'Tin sẽ bị ẩn khỏi trang tìm kiếm.'}
+                    </p>
+                `,
+                icon: icon,
                 showCancelButton: true,
-                confirmButtonColor: isHidden ? '#28a745' : '#ffc107',
+                confirmButtonColor: confirmButtonColor,
                 cancelButtonColor: '#6c757d',
-                confirmButtonText: isHidden ? 'Hiện' : 'Ẩn',
-                cancelButtonText: 'Hủy'
-            }).then((result) => {
-                if (result.isConfirmed) {
+                confirmButtonText: confirmButtonText,
+                cancelButtonText: 'Hủy bỏ',
+                reverseButtons: true,
+                showLoaderOnConfirm: true,
+                allowOutsideClick: () => !Swal.isLoading(),
+                preConfirm: () => {
                     const token = document.querySelector('input[name="__RequestVerificationToken"]');
                     const tokenValue = token ? token.value : '';
 
-                    fetch(`/Listings/Hide/${id}`, {
+                    return fetch(`/Listings/Hide/${id}`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -269,22 +318,25 @@
                     })
                     .then(response => response.json())
                     .then(data => {
-                        if (data.success) {
-                            showToast(data.message || (isHidden ? 'Hiện tin thành công!' : 'Ẩn tin thành công!'), 'success');
-                            setTimeout(() => location.reload(), 1000);
-                        } else {
-                            showToast(data.message || 'Có lỗi xảy ra!', 'danger');
+                        if (!data.success) {
+                            throw new Error(data.message || 'Có lỗi xảy ra!');
                         }
+                        return data;
                     })
                     .catch(error => {
-                        console.error('Error:', error);
-                        showToast('Có lỗi xảy ra!', 'danger');
+                        Swal.showValidationMessage(error.message);
+                        throw error;
                     });
+                }
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    showToast(result.value.message || (isHidden ? 'Hiện tin thành công!' : 'Ẩn tin thành công!'), 'success');
+                    setTimeout(() => location.reload(), 1000);
                 }
             });
         }
 
-        // Cập nhật số thứ tự
+        // 4. CẬP NHẬT SỐ THỨ TỰ
         function updateRowNumbers() {
             const rows = document.querySelectorAll('tbody tr');
             rows.forEach((row, index) => {
@@ -295,7 +347,7 @@
             });
         }
 
-        // Tự động ẩn thông báo
+        // 5. TỰ ĐỘNG ẨN THÔNG BÁO
         setTimeout(() => {
             const alerts = document.querySelectorAll('.alert');
             alerts.forEach(alert => {
@@ -303,6 +355,6 @@
                 alert.style.opacity = '0';
                 setTimeout(() => alert.remove(), 500);
             });
-        }, 3000);
+        }, 5000);
     </script>
 }

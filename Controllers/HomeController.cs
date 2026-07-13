@@ -13,6 +13,7 @@ public class HomeController(RoomGoDbContext db, IGeocodingService geocoding) : C
         View(
             await db
                 .Listings.Where(x => x.Status == ListingStatus.Approved)
+                .Include(x => x.Images)
                 .OrderByDescending(x => x.CreatedAt)
                 .Take(8)
                 .ToListAsync()
@@ -25,13 +26,18 @@ public class HomeController(RoomGoDbContext db, IGeocodingService geocoding) : C
     [HttpGet]
     public async Task<IActionResult> Search(SearchVm q)
     {
-        var query = db.Listings.Where(x => x.Status == ListingStatus.Approved);
+        var query = db.Listings
+            .Include(x => x.Images)
+            .Include(x => x.Owner)
+            .Where(x => x.Status == ListingStatus.Approved);
+            
         if (!string.IsNullOrWhiteSpace(q.District))
             query = query.Where(x => x.District == q.District);
         if (q.MinPrice.HasValue)
             query = query.Where(x => x.Price >= q.MinPrice);
         if (q.MaxPrice.HasValue)
             query = query.Where(x => x.Price <= q.MaxPrice);
+            
         var allRooms = await query.ToListAsync();
         var result = allRooms;
 
@@ -60,8 +66,8 @@ public class HomeController(RoomGoDbContext db, IGeocodingService geocoding) : C
                             Distance(
                                 point.Value.Lat,
                                 point.Value.Lng,
-                                (double)x.Latitude!.Value,  // Ép kiểu sang double
-                                (double)x.Longitude!.Value  // Ép kiểu sang double
+                                (double)x.Latitude!.Value,  
+                                (double)x.Longitude!.Value  
                             )
                         )
                         .Take(8)

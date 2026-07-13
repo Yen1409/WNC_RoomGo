@@ -72,7 +72,7 @@ public class Listing
     [Range(1, 100000000)]
     public decimal Price { get; set; }
 
-    [Range(1, 1000)]
+    [Range(1, 1000, ErrorMessage = "Diện tích phải nằm trong khoảng từ 1 đến 1000.")]
     public double Area { get; set; }
 
     [Required]
