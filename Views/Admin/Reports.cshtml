@@ -1,63 +1,198 @@
 ﻿@model IEnumerable<ViolationReport>
 
-    <h2>Báo cáo vi phạm</h2>
+    <style>
+        body {
+            background: #f5f7fb;
+        }
 
-    <table class="table table-bordered">
+        .report-container {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,.08);
+        }
 
-        <thead>
-            <tr>
-                <th>Tin đăng</th>
-                <th>Người báo cáo</th>
-                <th>Lý do</th>
-                <th>Nội dung</th>
-                <th>Trạng thái</th>
-                <th></th>
-            </tr>
-        </thead>
+        .page-title {
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
 
+        .table {
+            border-radius: 12px;
+            overflow: hidden;
+        }
 
-        <tbody>
+            .table thead {
+                background: #212529;
+                color: white;
+            }
 
-            @foreach(var r in Model)
-{
-            <tr>
+            .table tbody tr {
+                transition: .2s;
+                vertical-align: middle;
+            }
 
-                <td>
-                    @r.Listing?.Title
-                </td>
-
-                <td>
-                    @r.Reporter?.FullName
-                </td>
-
-                <td>
-                    @r.Reason
-                </td>
-
-                <td>
-                    @r.Detail
-                </td>
-
-                <td>
-                    @r.Status
-                </td>
+                .table tbody tr:hover {
+                    background: #f8f9fa;
+                    transform: scale(1.01);
+                }
 
 
-                <td>
+        .badge-pending {
+            background: #ffc107;
+            color: #000;
+            padding: 7px 12px;
+            border-radius: 20px;
+        }
 
-                    <form asp-action="ProcessReport"
-                          method="post">
+        .badge-success {
+            background: #198754;
+            color: white;
+            padding: 7px 12px;
+            border-radius: 20px;
+        }
 
-                        <input type="hidden"
-                               name="id"
-                               value="@r.Id" />
-                    </form>
+        .badge-danger {
+            background: #dc3545;
+            color: white;
+            padding: 7px 12px;
+            border-radius: 20px;
+        }
 
-                </td>
 
-            </tr>
-}
+        .btn-process {
+            border-radius: 10px;
+            padding: 7px 15px;
+        }
 
-        </tbody>
 
-    </table>
+        .content-text {
+            max-width: 250px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    </style>
+
+
+    <div class="container py-4">
+
+        <div class="report-container">
+
+            <h2 class="page-title">
+                🚩 Quản lý báo cáo vi phạm
+            </h2>
+
+
+            <table class="table table-bordered table-hover">
+
+                <thead>
+                    <tr>
+                        <th>Tin đăng</th>
+                        <th>Người báo cáo</th>
+                        <th>Lý do</th>
+                        <th>Nội dung</th>
+                        <th>Trạng thái</th>
+                        <th style="width:120px">
+                            Thao tác
+                        </th>
+                    </tr>
+                </thead>
+
+
+                <tbody>
+
+                    @foreach(var r in Model)
+                {
+                    <tr>
+
+                        <td>
+                            <strong>
+                                @(r.Listing?.Title ?? "Không có")
+                            </strong>
+                        </td>
+
+
+                        <td>
+                            <i class="bi bi-person-circle"></i>
+                            @(r.Reporter?.FullName ?? "Ẩn danh")
+                        </td>
+
+
+                        <td>
+                            <span class="text-danger fw-semibold">
+                                @r.Reason
+                            </span>
+                        </td>
+
+
+                        <td>
+                            <div class="content-text">
+                                @(r.Detail ?? "Không có nội dung")
+                            </div>
+                        </td>
+
+
+                        <td>
+
+                            @if(r.Status == ReportStatus.Pending)
+                            {
+                            <span class="badge-pending">
+                                Chưa xử lý
+                            </span>
+                            }
+                            else if(r.Status == ReportStatus.Resolved)
+                            {
+                            <span class="badge-success">
+                                Đã xử lý
+                            </span>
+                            }
+                            else
+                            {
+                            <span class="badge-danger">
+                                Từ chối
+                            </span>
+                            }
+
+                        </td>
+
+
+                        <td>
+
+                            @if(r.Status == ReportStatus.Pending)
+                            {
+                            <form asp-action="ProcessReport"
+                                  method="post">
+
+                                <input type="hidden"
+                                       name="id"
+                                       value="@r.Id" />
+
+                                <button class="btn btn-success btn-process">
+                                    <i class="bi bi-check-circle"></i>
+                                    Xử lý
+                                </button>
+
+                            </form>
+                            }
+                            else
+                            {
+                            <span class="text-muted">
+                                Hoàn tất
+                            </span>
+                            }
+
+                        </td>
+
+
+                    </tr>
+                }
+
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>

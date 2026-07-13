@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RoomGoHanoi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+454b20467e6e1978918d176117d793c0f2d06a41")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+087f4be86f733c66e18778a648ec129ecb8e771e")]
 [assembly: System.Reflection.AssemblyProductAttribute("RoomGoHanoi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RoomGoHanoi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
