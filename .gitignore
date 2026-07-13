@@ -23,5 +23,3 @@ obj/
 *.bak
 *.swp
 
-# Publish outputs
-wwwroot/lib/
