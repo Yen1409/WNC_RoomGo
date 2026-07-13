@@ -118,12 +118,29 @@ public class ChatMessage
 public class ViolationReport
 {
     public int Id { get; set; }
+
     public int ListingId { get; set; }
+    public Listing? Listing { get; set; }
+
+
     public int ReporterId { get; set; }
+    public AppUser? Reporter { get; set; }
+
 
     [Required]
     public string Reason { get; set; } = "";
+
     public string? Detail { get; set; }
+
+
     public ReportStatus Status { get; set; } = ReportStatus.Pending;
+
+
     public int? ProcessedById { get; set; }
+    public AppUser? ProcessedBy { get; set; }
+
+
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    public DateTime? ProcessedAt { get; set; }
 }

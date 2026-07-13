@@ -124,20 +124,71 @@ public class RoomGoDbContext(DbContextOptions<RoomGoDbContext> options) : DbCont
             e.Property(x => x.SentAt).HasColumnName("dThoigianGui");
             e.Property(x => x.IsRead).HasColumnName("bDaxem");
         });
-        
+
         b.Entity<ViolationReport>(e =>
         {
             e.ToTable("tblBCViPham");
+
             e.HasKey(x => x.Id);
-            e.Property(x => x.Id).HasColumnName("baocaoVP_id");
-            e.Property(x => x.ListingId).HasColumnName("fk_tindangID");
-            e.Property(x => x.ReporterId).HasColumnName("fk_nguoiBaocaoID");
-            e.Property(x => x.ProcessedById).HasColumnName("fk_adminXulyID");
-            e.Property(x => x.Reason).HasColumnName("sLydo");
-            e.Property(x => x.Detail).HasColumnName("sNoidung");
+
+            e.Property(x => x.Id)
+                .HasColumnName("baocaoVP_id");
+
+
+            e.Property(x => x.ListingId)
+                .HasColumnName("fk_tindangID");
+
+
+            e.Property(x => x.ReporterId)
+                .HasColumnName("fk_nguoiBaocaoID");
+
+
+            e.Property(x => x.ProcessedById)
+                .HasColumnName("fk_adminXulyID");
+
+
+            // Reason -> sLydo
+            e.Property(x => x.Reason)
+                .HasColumnName("sLydo");
+
+
+            // Detail -> sNoidung
+            e.Property(x => x.Detail)
+                .HasColumnName("sNoidung");
+
+
+            // CreatedAt -> dNgayBaocao
+            e.Property(x => x.CreatedAt)
+                .HasColumnName("dNgayBaocao");
+
+
+            // ProcessedAt -> dNgayXuly
+            e.Property(x => x.ProcessedAt)
+                .HasColumnName("dNgayXuly");
+
+
             e.Property(x => x.Status)
                 .HasColumnName("sTrangthaiXuly")
                 .HasConversion(reportStatusConverter);
+
+
+            e.HasOne(x => x.Listing)
+                .WithMany()
+                .HasForeignKey(x => x.ListingId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+            e.HasOne(x => x.Reporter)
+                .WithMany()
+                .HasForeignKey(x => x.ReporterId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+
+            e.HasOne(x => x.ProcessedBy)
+                .WithMany()
+                .HasForeignKey(x => x.ProcessedById)
+                .OnDelete(DeleteBehavior.NoAction);
+
         });
     }
 

@@ -1,0 +1,63 @@
+﻿@model IEnumerable<ViolationReport>
+
+    <h2>Báo cáo vi phạm</h2>
+
+    <table class="table table-bordered">
+
+        <thead>
+            <tr>
+                <th>Tin đăng</th>
+                <th>Người báo cáo</th>
+                <th>Lý do</th>
+                <th>Nội dung</th>
+                <th>Trạng thái</th>
+                <th></th>
+            </tr>
+        </thead>
+
+
+        <tbody>
+
+            @foreach(var r in Model)
+{
+            <tr>
+
+                <td>
+                    @r.Listing?.Title
+                </td>
+
+                <td>
+                    @r.Reporter?.FullName
+                </td>
+
+                <td>
+                    @r.Reason
+                </td>
+
+                <td>
+                    @r.Detail
+                </td>
+
+                <td>
+                    @r.Status
+                </td>
+
+
+                <td>
+
+                    <form asp-action="ProcessReport"
+                          method="post">
+
+                        <input type="hidden"
+                               name="id"
+                               value="@r.Id" />
+                    </form>
+
+                </td>
+
+            </tr>
+}
+
+        </tbody>
+
+    </table>

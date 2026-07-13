@@ -96,25 +96,34 @@
             </div>
         </div>
 
-        <div class="col-lg-3 col-md-6">
-            <div class="dashboard-card">
-                <div>
-                    <h3 class="text-warning">@ViewBag.Pending</h3>
-                    <p>Tin chờ duyệt</p>
-                </div>
-                <i class="bi bi-clock-history text-warning"></i>
+<div class="col-lg-3 col-md-6">
+    <a asp-action="Listings" class="text-decoration-none">
+        <div class="dashboard-card">
+            <div>
+                <h3 class="text-warning">@ViewBag.Pending</h3>
+                <p>Tin chờ duyệt</p>
             </div>
+            <i class="bi bi-clock-history text-warning"></i>
         </div>
+    </a>
+</div>
 
-        <div class="col-lg-3 col-md-6">
-            <div class="dashboard-card">
-                <div>
-                    <h3 class="text-danger">@ViewBag.Reports</h3>
-                    <p>Báo cáo chờ xử lý</p>
-                </div>
-                <i class="bi bi-flag-fill text-danger"></i>
+<div class="col-lg-3 col-md-6">
+    <a asp-action="Reports"
+       class="text-decoration-none text-dark">
+        <div class="dashboard-card">
+            <div>
+                <h3 class="text-danger">
+                    @ViewBag.Reports
+                </h3>
+                <p>
+                    Báo cáo chờ xử lý
+                </p>
             </div>
+            <i class="bi bi-flag-fill text-danger"></i>
         </div>
+    </a>
+</div>
 
     </div>
 
