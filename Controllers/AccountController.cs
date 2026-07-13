@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using RoomGoHanoi.Data;
 using RoomGoHanoi.Models;
 using RoomGoHanoi.ViewModels;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace RoomGoHanoi.Controllers;
 
@@ -112,6 +114,58 @@ public class AccountController(RoomGoDbContext db) : Controller
         HttpContext.Session.Clear();
         await HttpContext.SignOutAsync();
         return RedirectToAction("Index", "Home");
+    }
+
+    [Authorize]
+    public async Task<IActionResult> Profile()
+    {
+        var u = await db.Users.FindAsync(UserId());
+        if (u is null) return NotFound();
+        var vm = new EditProfileVm
+        {
+            FullName = u.FullName,
+            Phone = u.Phone,
+            AvatarUrl = u.AvatarUrl
+        };
+        return View(vm);
+    }
+
+    [Authorize, HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> Profile(EditProfileVm vm, IFormFile? avatar)
+    {
+        vm.FullName = vm.FullName?.Trim() ?? "";
+
+        if (!ModelState.IsValid)
+            return View(vm);
+
+        var u = await db.Users.FindAsync(UserId());
+        if (u is null) return NotFound();
+
+        u.FullName = vm.FullName;
+        u.Phone = vm.Phone;
+
+        if (avatar != null && avatar.Length > 0)
+        {
+            // save file to wwwroot/uploads/avatars
+            var uploads = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "avatars");
+            Directory.CreateDirectory(uploads);
+            var ext = Path.GetExtension(avatar.FileName);
+            var fileName = $"{Guid.NewGuid()}{ext}";
+            var filePath = Path.Combine(uploads, fileName);
+            await using (var stream = System.IO.File.Create(filePath))
+            {
+                await avatar.CopyToAsync(stream);
+            }
+            u.AvatarUrl = $"/uploads/avatars/{fileName}";
+        }
+
+        await db.SaveChangesAsync();
+
+        // update session display name
+        HttpContext.Session.SetString("UserFullName", u.FullName);
+
+        TempData["Success"] = "Cập nhật hồ sơ thành công.";
+        return RedirectToAction(nameof(Profile));
     }
 
     int UserId() => int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);

@@ -53,3 +53,18 @@ public class SearchVm
     public double? Longitude { get; set; }
     public double? RadiusKm { get; set; }
 }
+
+public class EditProfileVm
+{
+    [Display(Name = "Họ và tên")]
+    [Required(ErrorMessage = "Vui lòng nhập họ và tên.")]
+    [StringLength(100, MinimumLength = 2, ErrorMessage = "Họ và tên phải có từ 2 đến 100 ký tự.")]
+    public string FullName { get; set; } = "";
+
+    [Display(Name = "Số điện thoại")]
+    [Phone(ErrorMessage = "Số điện thoại không hợp lệ.")]
+    public string? Phone { get; set; }
+
+    // Avatar URL for preview (optional)
+    public string? AvatarUrl { get; set; }
+}

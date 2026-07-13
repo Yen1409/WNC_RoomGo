@@ -5184,31 +5184,31 @@
   },
   "projectFileDependencyGroups": {
     "net9.0": [
-      "Bootstrap >= 5.3.3",
       "HtmlSanitizer >= 9.0.892",
       "Microsoft.EntityFrameworkCore.SqlServer >= 9.0.0",
-      "Microsoft.EntityFrameworkCore.Tools >= 9.0.0"
+      "Microsoft.EntityFrameworkCore.Tools >= 9.0.0",
+      "bootstrap >= 5.3.3"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\NGUYEN THI YEN\\.nuget\\packages\\": {},
+    "C:\\Users\\lam78\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\WebNangCao\\WNC_RoomGo-main\\RoomGoHanoi.csproj",
+      "projectUniqueName": "C:\\Users\\lam78\\Source\\Repos\\WNC_RoomGo\\RoomGoHanoi.csproj",
       "projectName": "RoomGoHanoi",
-      "projectPath": "D:\\WebNangCao\\WNC_RoomGo-main\\RoomGoHanoi.csproj",
-      "packagesPath": "C:\\Users\\NGUYEN THI YEN\\.nuget\\packages\\",
-      "outputPath": "D:\\WebNangCao\\WNC_RoomGo-main\\obj\\",
+      "projectPath": "C:\\Users\\lam78\\Source\\Repos\\WNC_RoomGo\\RoomGoHanoi.csproj",
+      "packagesPath": "C:\\Users\\lam78\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\lam78\\Source\\Repos\\WNC_RoomGo\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "D:\\WebNangCao\\WNC_RoomGo-main\\NuGet.Config",
-        "C:\\Users\\NGUYEN THI YEN\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\lam78\\Source\\Repos\\WNC_RoomGo\\NuGet.Config",
+        "C:\\Users\\lam78\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -5234,16 +5234,12 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "10.0.200"
+      "SdkAnalysisLevel": "9.0.300"
     },
     "frameworks": {
       "net9.0": {
         "targetAlias": "net9.0",
         "dependencies": {
-          "Bootstrap": {
-            "target": "Package",
-            "version": "[5.3.3, )"
-          },
           "HtmlSanitizer": {
             "target": "Package",
             "version": "[9.0.892, )"
@@ -5256,6 +5252,10 @@
             "suppressParent": "All",
             "target": "Package",
             "version": "[9.0.0, )"
+          },
+          "bootstrap": {
+            "target": "Package",
+            "version": "[5.3.3, )"
           }
         },
         "imports": [
@@ -5277,7 +5277,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.202/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.315/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
