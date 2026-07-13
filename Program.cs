@@ -48,6 +48,10 @@ builder.Services.AddSignalR();
 builder.Services.AddHttpClient<IGeocodingService, GeocodingService>();
 builder.Services.AddDbContext<RoomGoDbContext>(o => o.UseSqlServer(finalConnectionString));
 
+//builder.Services.AddScoped<IUserRepository, UserRepository>();
+//builder.Services.AddScoped<IRoomRepository, RoomRepository>();
+//builder.Services.AddScoped<IReportRepository, ReportRepository>();
+
 // THÊM CẤU HÌNH SESSION
 builder.Services.AddDistributedMemoryCache(); // Lưu session trong memory
 builder.Services.AddSession(options =>

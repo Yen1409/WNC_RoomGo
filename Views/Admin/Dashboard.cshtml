@@ -1,16 +1,121 @@
-<h1 class="h3">Dashboard quản trị</h1>
-<div class="row g-3">
-    <div class="col-md-3">
-        <div class="stat">@ViewBag.Users<small>Người dùng</small></div>
+<style>
+    body {
+        background: #f5f7fb;
+    }
+
+    .dashboard-card {
+        background: #fff;
+        border-radius: 16px;
+        padding: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 4px 12px rgba(0,0,0,.08);
+        transition: .25s;
+        height: 100%;
+    }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,.12);
+        }
+
+        .dashboard-card h3 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .dashboard-card p {
+            margin: 0;
+            color: #6c757d;
+        }
+
+        .dashboard-card i {
+            font-size: 45px;
+            opacity: .18;
+        }
+
+    .dashboard-header {
+        margin-bottom: 30px;
+    }
+
+        .dashboard-header h2 {
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .dashboard-header span {
+            color: #6c757d;
+        }
+
+    .action-buttons .btn {
+        border-radius: 10px;
+        padding: 10px 18px;
+    }
+</style>
+
+<div class="container py-4">
+
+    <div class="dashboard-header d-flex justify-content-between align-items-center">
+        <div>
+            <h2>📊 Dashboard quản trị</h2>
+            <span>Tổng quan hệ thống</span>
+        </div>
+
+        <div class="action-buttons">
+            <a asp-action="Listings" class="btn btn-primary me-2">
+                Kiểm duyệt tin
+            </a>
+
+            <a asp-action="Users" class="btn btn-outline-primary">
+                Quản lý tài khoản
+            </a>
+        </div>
     </div>
-    <div class="col-md-3">
-        <div class="stat">@ViewBag.Owners<small>Chủ trọ</small></div>
+
+    <div class="row g-4">
+
+        <div class="col-lg-3 col-md-6">
+            <div class="dashboard-card">
+                <div>
+                    <h3 class="text-primary">@ViewBag.Users</h3>
+                    <p>Người dùng</p>
+                </div>
+                <i class="bi bi-people-fill text-primary"></i>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="dashboard-card">
+                <div>
+                    <h3 class="text-success">@ViewBag.Owners</h3>
+                    <p>Chủ trọ</p>
+                </div>
+                <i class="bi bi-house-fill text-success"></i>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="dashboard-card">
+                <div>
+                    <h3 class="text-warning">@ViewBag.Pending</h3>
+                    <p>Tin chờ duyệt</p>
+                </div>
+                <i class="bi bi-clock-history text-warning"></i>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="dashboard-card">
+                <div>
+                    <h3 class="text-danger">@ViewBag.Reports</h3>
+                    <p>Báo cáo chờ xử lý</p>
+                </div>
+                <i class="bi bi-flag-fill text-danger"></i>
+            </div>
+        </div>
+
     </div>
-    <div class="col-md-3">
-        <div class="stat">@ViewBag.Pending<small>Tin chờ duyệt</small></div>
-    </div>
-    <div class="col-md-3">
-        <div class="stat">@ViewBag.Reports<small>Báo cáo chờ xử lý</small></div>
-    </div>
-</div><a asp-action="Listings" class="btn btn-primary mt-4">Kiểm duyệt tin đăng</a> <a asp-action="Users"
-    class="btn btn-outline-primary mt-4">Quản lý tài khoản</a>
+
+</div>

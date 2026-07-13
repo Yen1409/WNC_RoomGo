@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RoomGoHanoi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4f94e3d3af140b5ad9c3e4751ac11be5a1fd9531")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+255982a2bbafc42dc70de46149b3397c60fb9602")]
 [assembly: System.Reflection.AssemblyProductAttribute("RoomGoHanoi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RoomGoHanoi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
