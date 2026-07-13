@@ -9,6 +9,7 @@ using RoomGoHanoi.Models;
 using RoomGoHanoi.ViewModels;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Microsoft.IdentityModel.Tokens;
 
 namespace RoomGoHanoi.Controllers;
 
@@ -81,6 +82,44 @@ public class AccountController(RoomGoDbContext db) : Controller
         
         return RedirectToAction("Index", "Home");
     }
+    public IActionResult ForgotPassword () => View();
+
+    [HttpPost, ValidateAntiForgeryToken]
+
+    public async Task<IActionResult> ForgotPassword(string email)
+    {
+        email = email?.Trim().ToLowerInvariant() ?? "";
+        if (string.IsNullOrEmpty(email))
+        {
+            TempData["Error"] = "Email không được để trống.";
+            return View();
+        }
+        var u = await db.Users.SingleOrDefaultAsync(x => x.Email == email);
+        if (u is null)
+        {
+            TempData["Error"] = "Không tìm thấy tài khoản với email này.";
+            return View();
+        }
+        HttpContext.Session.SetString("email", email);
+        return RedirectToAction(nameof(ForgotPasswordConfirmation));
+    }
+
+    public IActionResult ForgotPasswordConfirmation() => View();
+
+    [HttpPost,ValidateAntiForgeryToken]
+    public async Task<IActionResult> ForgotPasswordConfirmation(string otp)
+    {
+        if (otp != "123456")
+        {
+            TempData["Error"] = "Mã OTP demo là 123456.";
+            return RedirectToAction(nameof(ForgotPasswordConfirmation));
+        }
+        var email = await db.Users.SingleOrDefaultAsync(x => x.Email == HttpContext.Session.GetString("email"));
+        HttpContext.Session.Clear();
+        return View("ForgotPasswordConfirmation", email.PasswordHash);
+    }
+
+
 
     [Authorize]
     public async Task<IActionResult> Upgrade()
