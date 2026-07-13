@@ -29,7 +29,7 @@
     <div class="row g-4">
         @foreach (var room in Model)
         {
-            var imageUrl = "wwwroot/images/rooms/68f135d3-ad3d-4fa8-8b29-9095f043e44e_anhphong1.jpg";
+            var imageUrl = "/images/rooms/default-room.svg";
             if (room.Images != null && room.Images.Count > 0)
             {
                 var firstImage = room.Images.FirstOrDefault();
@@ -45,7 +45,7 @@
                 <article class="room-card h-100">
                     <div class="room-image">
                         <img src="@imageUrl" alt="@room.Title" 
-                             onerror="this.onerror=null; this.src='wwwroot/images/rooms/68f135d3-ad3d-4fa8-8b29-9095f043e44e_anhphong1.jpg'" />
+                             onerror="this.onerror=null; this.src='/images/rooms/default-room.svg'" />
                         <span>Đã xác thực</span>
                     </div>
                     <div class="room-content">
